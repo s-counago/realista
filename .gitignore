@@ -1,0 +1,151 @@
+# ============================================
+# FRONTEND (Next.js + VSCode)
+# ============================================
+
+# Next.js
+/frontend/.next/
+/frontend/out/
+/frontend/build
+/frontend/next-env.d.ts
+
+# Dependencies
+/frontend/node_modules
+/frontend/.pnp
+/frontend/.pnp.js
+
+# Testing
+/frontend/coverage
+
+# Production
+/frontend/dist
+
+# Debug
+/frontend/npm-debug.log*
+/frontend/yarn-debug.log*
+/frontend/yarn-error.log*
+/frontend/.pnpm-debug.log*
+
+# Local env files
+/frontend/.env
+/frontend/.env*.local
+
+# Vercel
+/frontend/.vercel
+
+# Typescript
+/frontend/*.tsbuildinfo
+
+# VSCode (Frontend)
+/frontend/.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+/frontend/.history/
+
+# ============================================
+# BACKEND (Spring Boot + IntelliJ)
+# ============================================
+
+# Maven
+/backend/target/
+!/backend/.mvn/wrapper/maven-wrapper.jar
+!/backend/**/src/main/**/target/
+!/backend/**/src/test/**/target/
+
+# Gradle
+/backend/.gradle
+/backend/build/
+!/backend/gradle/wrapper/gradle-wrapper.jar
+!/backend/**/src/main/**/build/
+!/backend/**/src/test/**/build/
+
+# Spring Boot
+/backend/*.log
+/backend/*.gz
+/backend/spring.log
+
+# Package Files
+/backend/*.jar
+/backend/*.war
+/backend/*.nar
+/backend/*.ear
+/backend/*.zip
+/backend/*.tar.gz
+/backend/*.rar
+
+# IntelliJ IDEA (Backend)
+/backend/.idea/
+/backend/*.iws
+/backend/*.iml
+/backend/*.ipr
+/backend/out/
+/backend/.idea_modules/
+
+# Eclipse
+/backend/.apt_generated
+/backend/.classpath
+/backend/.factorypath
+/backend/.project
+/backend/.settings
+/backend/.springBeans
+/backend/.sts4-cache
+/backend/bin/
+!/backend/**/src/main/**/bin/
+!/backend/**/src/test/**/bin/
+
+# NetBeans
+/backend/nbproject/private/
+/backend/nbbuild/
+/backend/dist/
+/backend/nbdist/
+/backend/.nb-gradle/
+
+# ============================================
+# ROOT LEVEL IDE FILES
+# ============================================
+
+# IntelliJ IDEA (root)
+/.idea/
+*.iws
+*.iml
+*.ipr
+
+# VSCode (root)
+/.vscode/
+
+# ============================================
+# GENERAL / OS FILES
+# ============================================
+
+# Misc
+.DS_Store
+*.pem
+
+# JVM crash logs
+hs_err_pid*
+replay_pid*
+
+# macOS
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+
+# Linux
+*~
+.directory
+.Trash-*
+
+# OS generated files
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
