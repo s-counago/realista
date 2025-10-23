@@ -2,6 +2,8 @@
 # FRONTEND (Next.js + VSCode)
 # ============================================
 
+# Own Infra
+.dev-pids
 # Next.js
 /frontend/.next/
 /frontend/out/

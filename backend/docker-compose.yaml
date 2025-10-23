@@ -3,6 +3,7 @@
 services:
 
   db:
+    container_name: backend-realista-db
     image: postgres
     restart: always
     # set shared memory limit when using docker compose
@@ -19,3 +20,7 @@ services:
       POSTGRES_USER: realistaDmin
       POSTGRES_PASSWORD: password
       POSTGRES_DB: realistadb
+    volumes:
+      - realista-postgres-data:/var/lib/postgresql/data
+volumes:
+  realista-postgres-data:
