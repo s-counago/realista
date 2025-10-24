@@ -1,14 +1,6 @@
-import Link from "next/link";
-
-export default function Home() {
+export default function About() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
-      <div className="absolute top-6 right-6">
-        <Link href="/login" className="px-6 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors inline-block">
-          Log In
-        </Link>
-      </div>
-
       <div className="container mx-auto px-6 py-20">
         <div className="max-w-3xl mx-auto">
           
