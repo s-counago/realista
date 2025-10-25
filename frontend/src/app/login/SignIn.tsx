@@ -1,5 +1,5 @@
 import { signIn } from "../../../auth";
-import handleGoogleSignIn from "./actions";
+import { handleGoogleSignIn } from "./actions";
 
 export default function SignIn() {
   return (
