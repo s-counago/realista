@@ -1,4 +1,4 @@
-package com.realista.realista;
+package com.realista.realista.requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
