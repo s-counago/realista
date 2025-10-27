@@ -25,19 +25,17 @@ export default function SearchAddressForm() {
       });
 
       if (!response.ok) {
-        alert("error");
-        return;
+        switch (response.status) {
+          case 404:
+            alert("none found :(");
+            return;
+        }
       }
 
-      const data = await response.json();
-      
-      if (data === null) {
-        alert("none found");
-      } else {
-        alert("there is a match!");
-      }
+      const data = await response.json(); //pendiente hacer algo con esto
+      alert("there is a match!");
     } catch (error) {
-      alert("error");
+      alert(error);
     }
   };
 

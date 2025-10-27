@@ -6,6 +6,8 @@ import com.realista.realista.requests.AlignUserRequest;
 import com.realista.realista.requests.SearchAddressRequest;
 import com.realista.realista.services.ApartmentService;
 import com.realista.realista.services.UserService;
+import org.apache.coyote.Response;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,7 +43,7 @@ public class Controller {
     }
 
     @PostMapping("/api/searchAddress")
-    public Apartment searchAddress(@RequestBody SearchAddressRequest request) {
+    public ResponseEntity<Apartment> searchAddress(@RequestBody SearchAddressRequest request) {
         Optional<Apartment> existingApartment = apartmentService.findApartment(
             request.getProvincia(),
             request.getAyuntamiento(),
@@ -52,10 +54,10 @@ public class Controller {
         );
 
         if (existingApartment.isPresent()) {
-            return existingApartment.get();
+            return ResponseEntity.ok(existingApartment.get());
         }
 
-        return null;
+        return ResponseEntity.notFound().build();
     }
 /*
 Perfect! You already have Spring Data JPA set up. Here's the modern, industry-standard way:
