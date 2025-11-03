@@ -18,10 +18,10 @@ export default async function ProfilePage() {
         <p className="text-gray-600 mb-4">{session.user.email}</p>
         <div className="flex gap-4 justify-center mb-4">
           <Link
-            href="/crear-review"
+            href="/buscar-piso"
             className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
           >
-            Crear Review
+            Buscar pisos
           </Link>
         </div>
         <form

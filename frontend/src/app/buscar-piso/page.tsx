@@ -10,7 +10,7 @@ export default async function CrearReviewPage() {
   }
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-3xl">
         <h1 className="text-2xl font-bold mb-6 text-center">Crear Review</h1>
         <SearchAddressForm />
       </div>

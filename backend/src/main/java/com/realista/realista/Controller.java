@@ -1,14 +1,18 @@
 package com.realista.realista;
 
 import com.realista.realista.entities.Apartment;
+import com.realista.realista.entities.Review;
 import com.realista.realista.entities.User;
 import com.realista.realista.requests.AlignUserRequest;
 import com.realista.realista.requests.SearchAddressRequest;
+import com.realista.realista.responses.ApartmentDetailsResponse;
 import com.realista.realista.services.ApartmentService;
+import com.realista.realista.services.ReviewService;
 import com.realista.realista.services.UserService;
 import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,10 +25,12 @@ public class Controller {
 
     private final UserService userService;
     private final ApartmentService apartmentService;
+    private final ReviewService reviewService;
 
-    public Controller(UserService userService, ApartmentService apartmentService) {
+    public Controller(UserService userService, ApartmentService apartmentService, ReviewService reviewService) {
         this.userService = userService;
         this.apartmentService = apartmentService;
+        this.reviewService = reviewService;
     }
 
     @GetMapping("/hello")
@@ -58,6 +64,22 @@ public class Controller {
         }
 
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/api/apartments/{id}")
+    public ResponseEntity<ApartmentDetailsResponse> getApartmentById(@PathVariable Long id) {
+        Optional<ApartmentDetailsResponse> apartmentDetails = apartmentService.getApartmentDetails(id);
+        
+        if (apartmentDetails.isPresent()) {
+            return ResponseEntity.ok(apartmentDetails.get());
+        }
+        
+        return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/api/apartments/{id}/reviews")
+    public List<Review> getApartmentReviews(@PathVariable Long id) {
+        return reviewService.getReviewsByApartmentId(id);
     }
 /*
 Perfect! You already have Spring Data JPA set up. Here's the modern, industry-standard way:
