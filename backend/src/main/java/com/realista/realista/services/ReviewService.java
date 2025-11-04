@@ -19,4 +19,8 @@ public class ReviewService {
     public List<Review> getReviewsByLandlordId(Long landlordId) {
         return reviewRepository.findByLandlordIdOrderByCreatedAtDesc(landlordId);
     }
+
+    public Review createReview(Review review) {
+        return reviewRepository.save(review);
+    }
 }

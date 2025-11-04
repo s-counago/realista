@@ -61,7 +61,14 @@ export default async function ViviendaPage({
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
       <div className="w-full max-w-4xl">
-        <ApartmentDetails apartment={apartment} reviews={reviews} />
+        <ApartmentDetails 
+          apartment={apartment} 
+          reviews={reviews} 
+          userGoogleId={session.user.id || ""}
+          userName={session.user.name || ""}
+          userEmail={session.user.email || ""}
+          userImage={session.user.image || ""}
+        />
       </div>
     </div>
   );
