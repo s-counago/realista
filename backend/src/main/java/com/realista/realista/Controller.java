@@ -1,13 +1,16 @@
 package com.realista.realista;
 
 import com.realista.realista.entities.Apartment;
+import com.realista.realista.entities.Landlord;
 import com.realista.realista.entities.Review;
 import com.realista.realista.entities.User;
 import com.realista.realista.requests.AlignUserRequest;
 import com.realista.realista.requests.CreateReviewRequest;
 import com.realista.realista.requests.SearchAddressRequest;
+import com.realista.realista.requests.SearchLandlordRequest;
 import com.realista.realista.responses.ApartmentDetailsResponse;
 import com.realista.realista.services.ApartmentService;
+import com.realista.realista.services.LandlordService;
 import com.realista.realista.services.ReviewService;
 import com.realista.realista.services.UserService;
 import org.apache.coyote.Response;
@@ -27,11 +30,13 @@ public class Controller {
     private final UserService userService;
     private final ApartmentService apartmentService;
     private final ReviewService reviewService;
+    private final LandlordService landlordService;
 
-    public Controller(UserService userService, ApartmentService apartmentService, ReviewService reviewService) {
+    public Controller(UserService userService, ApartmentService apartmentService, ReviewService reviewService, LandlordService landlordService) {
         this.userService = userService;
         this.apartmentService = apartmentService;
         this.reviewService = reviewService;
+        this.landlordService = landlordService;
     }
 
     @GetMapping("/hello")
@@ -67,6 +72,14 @@ public class Controller {
         return ResponseEntity.notFound().build();
     }
 
+    @GetMapping("/api/landlord/{id}")
+    public ResponseEntity<Landlord> getLandlord(@RequestBody SearchLandlordRequest landlord){
+        Optional<Landlord> existinLandlord = landlordService.findByName(landlord.getName());
+        if (existinLandlord.isPresent())
+            return ResponseEntity.ok(existinLandlord.get());
+
+        return ResponseEntity.notFound().build();
+    }
     @GetMapping("/api/apartments/{id}")
     public ResponseEntity<ApartmentDetailsResponse> getApartmentById(@PathVariable Long id) {
         Optional<ApartmentDetailsResponse> apartmentDetails = apartmentService.getApartmentDetails(id);
