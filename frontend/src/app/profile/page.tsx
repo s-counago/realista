@@ -23,6 +23,12 @@ export default async function ProfilePage() {
           >
             Buscar pisos
           </Link>
+          <Link
+            href="/buscar-inmobiliaria"
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            Buscar inmobiliaria
+          </Link>
         </div>
         <form
           action={async () => {
