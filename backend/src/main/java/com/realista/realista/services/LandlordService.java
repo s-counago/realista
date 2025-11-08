@@ -16,6 +16,8 @@ public class LandlordService {
         return landlordRepository.findById(id);
     }
 
+    public Optional<Landlord> findByName(String name){return landlordRepository.findByName(name);}
+
     public Landlord createLandlord(Landlord landlord) {
         return landlordRepository.save(landlord);
     }

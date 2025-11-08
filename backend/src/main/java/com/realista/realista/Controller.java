@@ -72,7 +72,7 @@ public class Controller {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/api/landlord/{id}")
+    @PostMapping("/api/landlord/searchLandlord")
     public ResponseEntity<Landlord> getLandlord(@RequestBody SearchLandlordRequest landlord){
         Optional<Landlord> existinLandlord = landlordService.findByName(landlord.getName());
         if (existinLandlord.isPresent())
@@ -80,6 +80,7 @@ public class Controller {
 
         return ResponseEntity.notFound().build();
     }
+
     @GetMapping("/api/apartments/{id}")
     public ResponseEntity<ApartmentDetailsResponse> getApartmentById(@PathVariable Long id) {
         Optional<ApartmentDetailsResponse> apartmentDetails = apartmentService.getApartmentDetails(id);

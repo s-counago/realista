@@ -31,7 +31,9 @@ export default function SearchAddressForm() {
       if (!response.ok) {
         switch (response.status) {
           case 404:
-            setNotFoundMessage("Vivienda no encontrada, ¿podrías crearla y ayudarnos a mejorar Realista?");
+            setNotFoundMessage(
+              "Vivienda no encontrada, ¿podrías crearla y ayudarnos a mejorar Realista?"
+            );
             return;
         }
       }
@@ -49,7 +51,6 @@ export default function SearchAddressForm() {
       [e.target.name]: e.target.value,
     });
   };
-
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
