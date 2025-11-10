@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function SearchLandlordForm() {
+  const router = useRouter();
   const [formData, setFormData] = useState({ name: "" });
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -18,7 +20,17 @@ export default function SearchLandlordForm() {
           body: JSON.stringify(formData),
         }
       );
-    } catch {}
+
+      if (response.status === 404) {
+        alert("no esite");
+        throw new Error("404 No existe inmobiliaria");
+      }
+
+      const data = await response.json();
+      router.push(`/inmobiliaria?id=${data.id}`);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,6 +53,13 @@ export default function SearchLandlordForm() {
           onChange={handleChange}
           className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
+        <br />
+        <button
+          type="submit"
+          className="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          Buscar Inmobiliaria
+        </button>
       </div>
     </form>
   );
