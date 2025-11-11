@@ -1,5 +1,6 @@
 import { auth } from "../../../auth";
 import { redirect } from "next/navigation";
+import { useEffect } from "react";
 interface InmobiliariaPageProps {
   searchParams: Promise<{ id?: string }>;
 }
@@ -26,13 +27,26 @@ export default async function InmobiliariaPage({
   let reviews;
 
   try {
-    // TODO: Fetch landlord data from backend
+    // TODO: Fetch landlord data from backend (actually from the browser)
+    var landlordFromLocalStorage;
+    useEffect(() => {
+      if (window !== undefined) {
+        const cachedLandlord = sessionStorage.getItem("landlord-data");
+        landlordFromLocalStorage = cachedLandlord
+          ? JSON.parse(cachedLandlord)
+          : null;
+      }
+    });
+    //con useState necesito pasarlo a través de props
+    //con useeffect, necesito proc-ear un re-render, no? cómo?
     // TODO: Fetch reviews from backend
-
-    // Placeholder for now
-    landlord = { name: "Example Landlord", email: "test@example.com" };
+    landlord = {
+      name: landlordFromLocalStorage.name,
+      email: landlordFromLocalStorage.email,
+    };
     reviews = [];
   } catch (error) {
+    console.log(error);
     return (
       <div className="flex min-h-screen items-center justify-center p-4">
         <div className="text-center">

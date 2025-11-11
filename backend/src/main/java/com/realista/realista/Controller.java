@@ -72,14 +72,7 @@ public class Controller {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/api/landlord/searchLandlord")
-    public ResponseEntity<Landlord> getLandlord(@RequestBody SearchLandlordRequest landlord){
-        Optional<Landlord> existinLandlord = landlordService.findByName(landlord.getName());
-        if (existinLandlord.isPresent())
-            return ResponseEntity.ok(existinLandlord.get());
 
-        return ResponseEntity.notFound().build();
-    }
 
     @GetMapping("/api/apartments/{id}")
     public ResponseEntity<ApartmentDetailsResponse> getApartmentById(@PathVariable Long id) {
@@ -125,6 +118,14 @@ public class Controller {
 
         Apartment savedApartment = apartmentService.createApartment(newApartment);
         return ResponseEntity.ok(savedApartment);
+    }
+
+    @PostMapping("/api/landlord/searchLandlord")
+    public ResponseEntity<Landlord> searchLandlord(@RequestBody SearchLandlordRequest landlord){
+        Optional<Landlord> existinLandlord = landlordService.findByName(landlord.getName());
+        if (existinLandlord.isPresent())
+            return ResponseEntity.ok(existinLandlord.get());
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/api/reviews")
