@@ -27,6 +27,7 @@ export default function SearchLandlordForm() {
       }
 
       const data = await response.json();
+      console.log(data);
       sessionStorage.setItem("landlord-data", JSON.stringify(data));
       console.log(sessionStorage.getItem("landlord-data"));
       router.push(`/inmobiliaria?id=${data.id}`);
