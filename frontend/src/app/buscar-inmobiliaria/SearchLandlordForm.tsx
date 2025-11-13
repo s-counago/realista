@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, createContext } from "react";
 import { useRouter } from "next/navigation";
 
 export default function SearchLandlordForm() {
   const router = useRouter();
+  const landlordContext = createContext({});
   const [formData, setFormData] = useState({ name: "" });
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
