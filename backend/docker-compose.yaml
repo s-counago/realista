@@ -20,6 +20,11 @@ services:
       POSTGRES_USER: realistaDmin
       POSTGRES_PASSWORD: password
       POSTGRES_DB: realistadb
+      PGHOST: db
+      PGPORT: 5432
+      PGUSER: realistaDmin
+      PGPASSWORD: password
+      PGDATABASE: realistadb
     volumes:
       - realista-postgres-data:/var/lib/postgresql/data
 volumes:
