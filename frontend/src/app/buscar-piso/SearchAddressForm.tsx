@@ -20,13 +20,16 @@ export default function SearchAddressForm() {
     setNotFoundMessage("");
 
     try {
-      const response = await fetch("http://localhost:8080/api/searchAddress", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_API}/searchAddress`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       if (!response.ok) {
         switch (response.status) {

@@ -56,16 +56,19 @@ async function alignUser() {
   const session = await auth();
   if (!session?.user) return null;
   console.log(session.user);
-  const response = await fetch("http://localhost:8080/api/alignUser", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      googleId: session.user.id,
-      name: session.user.name,
-      email: session.user.email,
-      pfp: session.user.image,
-    }),
-  });
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_API}/alignUser`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        googleId: session.user.id,
+        name: session.user.name,
+        email: session.user.email,
+        pfp: session.user.image,
+      }),
+    }
+  );
   if (!response.ok) {
     console.log(response.status, response.statusText);
     throw new Error("MEEEEEEEEEEEEEEC en /profile/alignUser");

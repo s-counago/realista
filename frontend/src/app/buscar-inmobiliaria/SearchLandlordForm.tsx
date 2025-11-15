@@ -12,7 +12,7 @@ export default function SearchLandlordForm() {
 
     try {
       const response = await fetch(
-        "http://localhost:8080/api/landlord/searchLandlord",
+        `${process.env.NEXT_PUBLIC_BACKEND_API}/landlord/searchLandlord`,
         {
           method: "POST",
           headers: {

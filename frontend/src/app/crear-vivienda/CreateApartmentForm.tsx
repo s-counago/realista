@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 export default function CreateApartmentForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  
+
   const [formData, setFormData] = useState({
     provincia: "",
     ayuntamiento: "",
@@ -34,13 +34,16 @@ export default function CreateApartmentForm() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("http://localhost:8080/api/apartments", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_API}/apartments`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to create apartment");
@@ -150,7 +153,7 @@ export default function CreateApartmentForm() {
           />
         </div>
       </div>
-      
+
       <div className="flex gap-4">
         <button
           type="button"

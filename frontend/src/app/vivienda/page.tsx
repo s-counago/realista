@@ -33,12 +33,18 @@ export default async function ViviendaPage({
   let reviews;
   try {
     const [apartmentResponse, reviewsResponse] = await Promise.all([
-      fetch(`http://localhost:8080/api/apartments/${apartmentId}`, {
-        cache: "no-store",
-      }),
-      fetch(`http://localhost:8080/api/apartments/${apartmentId}/reviews`, {
-        cache: "no-store",
-      }),
+      fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_API}/apartments/${apartmentId}`,
+        {
+          cache: "no-store",
+        }
+      ),
+      fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_API}/apartments/${apartmentId}/reviews`,
+        {
+          cache: "no-store",
+        }
+      ),
     ]);
 
     if (!apartmentResponse.ok) {
@@ -61,9 +67,9 @@ export default async function ViviendaPage({
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
       <div className="w-full max-w-4xl">
-        <ApartmentDetails 
-          apartment={apartment} 
-          reviews={reviews} 
+        <ApartmentDetails
+          apartment={apartment}
+          reviews={reviews}
           userGoogleId={session.user.id || ""}
           userName={session.user.name || ""}
           userEmail={session.user.email || ""}
