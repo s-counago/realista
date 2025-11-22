@@ -65,10 +65,10 @@ export default function CreateApartmentForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-2 gap-4">
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="grid grid-cols-2 gap-6">
         <div>
-          <label htmlFor="provincia" className="block text-sm font-medium mb-1">
+          <label htmlFor="provincia" className="block text-sm font-bold uppercase mb-2">
             Provincia *
           </label>
           <input
@@ -78,11 +78,11 @@ export default function CreateApartmentForm() {
             value={formData.provincia}
             onChange={handleChange}
             required
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-3 border-4 border-black focus:outline-none focus:bg-accent focus:text-white font-mono"
           />
         </div>
         <div>
-          <label htmlFor="numero" className="block text-sm font-medium mb-1">
+          <label htmlFor="numero" className="block text-sm font-bold uppercase mb-2">
             Número *
           </label>
           <input
@@ -92,13 +92,13 @@ export default function CreateApartmentForm() {
             value={formData.numero}
             onChange={handleChange}
             required
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-3 border-4 border-black focus:outline-none focus:bg-accent focus:text-white font-mono"
           />
         </div>
         <div>
           <label
             htmlFor="ayuntamiento"
-            className="block text-sm font-medium mb-1"
+            className="block text-sm font-bold uppercase mb-2"
           >
             Ayuntamiento *
           </label>
@@ -109,11 +109,11 @@ export default function CreateApartmentForm() {
             value={formData.ayuntamiento}
             onChange={handleChange}
             required
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-3 border-4 border-black focus:outline-none focus:bg-accent focus:text-white font-mono"
           />
         </div>
         <div>
-          <label htmlFor="piso" className="block text-sm font-medium mb-1">
+          <label htmlFor="piso" className="block text-sm font-bold uppercase mb-2">
             Piso (opcional)
           </label>
           <input
@@ -122,11 +122,11 @@ export default function CreateApartmentForm() {
             name="piso"
             value={formData.piso}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-3 border-4 border-black focus:outline-none focus:bg-accent focus:text-white font-mono"
           />
         </div>
         <div>
-          <label htmlFor="calle" className="block text-sm font-medium mb-1">
+          <label htmlFor="calle" className="block text-sm font-bold uppercase mb-2">
             Calle *
           </label>
           <input
@@ -136,11 +136,11 @@ export default function CreateApartmentForm() {
             value={formData.calle}
             onChange={handleChange}
             required
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-3 border-4 border-black focus:outline-none focus:bg-accent focus:text-white font-mono"
           />
         </div>
         <div>
-          <label htmlFor="puerta" className="block text-sm font-medium mb-1">
+          <label htmlFor="puerta" className="block text-sm font-bold uppercase mb-2">
             Puerta (opcional)
           </label>
           <input
@@ -149,23 +149,23 @@ export default function CreateApartmentForm() {
             name="puerta"
             value={formData.puerta}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-3 border-4 border-black focus:outline-none focus:bg-accent focus:text-white font-mono"
           />
         </div>
       </div>
 
-      <div className="flex gap-4">
+      <div className="flex gap-6 pt-4">
         <button
           type="button"
           onClick={() => router.back()}
-          className="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+          className="flex-1 px-6 py-4 text-xl font-bold uppercase border-4 border-black bg-white text-black hover:bg-black hover:text-white transition-none"
           disabled={isSubmitting}
         >
           Cancelar
         </button>
         <button
           type="submit"
-          className="flex-1 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-blue-400"
+          className="flex-1 px-6 py-4 text-xl font-black uppercase border-4 border-black bg-black text-white hover:bg-accent hover:text-black transition-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] disabled:opacity-50"
           disabled={isSubmitting}
         >
           {isSubmitting ? "Creando..." : "Crear Vivienda"}

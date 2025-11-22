@@ -18,10 +18,10 @@ export default async function InmobiliariaPage({
   const landlordId = params.id;
   if (!landlordId) {
     return (
-      <div className="flex min-h-screen items-center justify-center p-4">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-red-600">Error</h1>
-          <p className="text-gray-600 mt-2">No landlord ID provided</p>
+      <div className="flex min-h-screen items-center justify-center p-4 bg-white">
+        <div className="text-center border-4 border-black p-8 bg-accent">
+          <h1 className="text-4xl font-black uppercase text-black">Error</h1>
+          <p className="text-black font-bold mt-2">No landlord ID provided</p>
         </div>
       </div>
     );
@@ -36,16 +36,16 @@ export default async function InmobiliariaPage({
   } catch (error) {
     console.log(error);
     return (
-      <div className="flex min-h-screen items-center justify-center p-4">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-red-600">Error</h1>
-          <p className="text-gray-600 mt-2">Failed to load landlord details</p>
+      <div className="flex min-h-screen items-center justify-center p-4 bg-white">
+        <div className="text-center border-4 border-black p-8 bg-accent">
+          <h1 className="text-4xl font-black uppercase text-black">Error</h1>
+          <p className="text-black font-bold mt-2">Failed to load landlord details</p>
         </div>
       </div>
     );
   }
   return (
-    <div className="flex min-h-screen items-center justify-center p-4">
+    <div className="flex min-h-screen items-center justify-center p-4 bg-white">
       <div className="w-full max-w-4xl">
         {/* TODO: Create LandlordDetails component and pass data */}
         <LandlordDetails />

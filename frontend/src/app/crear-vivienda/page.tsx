@@ -10,9 +10,11 @@ export default async function CrearViviendaPage() {
   }
   
   return (
-    <div className="flex min-h-screen items-center justify-center p-4">
-      <div className="w-full max-w-3xl">
-        <h1 className="text-2xl font-bold mb-6 text-center">Crear Vivienda</h1>
+    <div className="flex min-h-screen items-center justify-center p-4 bg-white">
+      <div className="w-full max-w-3xl border-4 border-black p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+        <h1 className="text-4xl font-black uppercase mb-8 text-center tracking-tighter">
+          Create Property
+        </h1>
         <CreateApartmentForm />
       </div>
     </div>

@@ -55,10 +55,10 @@ export default function SearchAddressForm() {
     });
   };
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-2 gap-4">
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="grid grid-cols-2 gap-6">
         <div>
-          <label htmlFor="provincia" className="block text-sm font-medium mb-1">
+          <label htmlFor="provincia" className="block text-sm font-bold uppercase mb-2">
             Provincia
           </label>
           <input
@@ -67,11 +67,11 @@ export default function SearchAddressForm() {
             name="provincia"
             value={formData.provincia}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-3 border-4 border-black focus:outline-none focus:bg-accent focus:text-white font-mono"
           />
         </div>
         <div>
-          <label htmlFor="numero" className="block text-sm font-medium mb-1">
+          <label htmlFor="numero" className="block text-sm font-bold uppercase mb-2">
             Número
           </label>
           <input
@@ -80,13 +80,13 @@ export default function SearchAddressForm() {
             name="numero"
             value={formData.numero}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-3 border-4 border-black focus:outline-none focus:bg-accent focus:text-white font-mono"
           />
         </div>
         <div>
           <label
             htmlFor="ayuntamiento"
-            className="block text-sm font-medium mb-1"
+            className="block text-sm font-bold uppercase mb-2"
           >
             Ayuntamiento
           </label>
@@ -96,11 +96,11 @@ export default function SearchAddressForm() {
             name="ayuntamiento"
             value={formData.ayuntamiento}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-3 border-4 border-black focus:outline-none focus:bg-accent focus:text-white font-mono"
           />
         </div>
         <div>
-          <label htmlFor="piso" className="block text-sm font-medium mb-1">
+          <label htmlFor="piso" className="block text-sm font-bold uppercase mb-2">
             Piso (opcional)
           </label>
           <input
@@ -109,11 +109,11 @@ export default function SearchAddressForm() {
             name="piso"
             value={formData.piso}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-3 border-4 border-black focus:outline-none focus:bg-accent focus:text-white font-mono"
           />
         </div>
         <div>
-          <label htmlFor="calle" className="block text-sm font-medium mb-1">
+          <label htmlFor="calle" className="block text-sm font-bold uppercase mb-2">
             Calle
           </label>
           <input
@@ -122,11 +122,11 @@ export default function SearchAddressForm() {
             name="calle"
             value={formData.calle}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-3 border-4 border-black focus:outline-none focus:bg-accent focus:text-white font-mono"
           />
         </div>
         <div>
-          <label htmlFor="puerta" className="block text-sm font-medium mb-1">
+          <label htmlFor="puerta" className="block text-sm font-bold uppercase mb-2">
             Puerta (opcional)
           </label>
           <input
@@ -135,12 +135,12 @@ export default function SearchAddressForm() {
             name="puerta"
             value={formData.puerta}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-3 border-4 border-black focus:outline-none focus:bg-accent focus:text-white font-mono"
           />
         </div>
       </div>
       {notFoundMessage && (
-        <div className="flex items-center justify-between gap-4 text-sm text-gray-700 bg-yellow-50 border border-yellow-200 rounded p-3">
+        <div className="flex items-center justify-between gap-4 text-sm font-bold border-4 border-black bg-accent text-white p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
           <span>{notFoundMessage}</span>
           <button
             type="button"
@@ -155,7 +155,7 @@ export default function SearchAddressForm() {
               });
               router.push(`/crear-vivienda?${params.toString()}`);
             }}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 whitespace-nowrap"
+            className="px-4 py-2 border-2 border-white bg-black text-white hover:bg-white hover:text-black transition-none uppercase"
           >
             Crear
           </button>
@@ -163,7 +163,7 @@ export default function SearchAddressForm() {
       )}
       <button
         type="submit"
-        className="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        className="w-full px-6 py-4 text-xl font-black uppercase border-4 border-black bg-black text-white hover:bg-white hover:text-black transition-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
       >
         Buscar Dirección
       </button>

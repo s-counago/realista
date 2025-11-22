@@ -60,7 +60,7 @@ export default function ApartmentDetails({ apartment, reviews, userGoogleId, use
       stars.push(
         <span
           key={i}
-          className={i <= rating ? "text-yellow-400" : "text-gray-300"}
+          className={i <= rating ? "text-black font-black" : "text-gray-300 font-black"}
         >
           ★
         </span>
@@ -70,75 +70,75 @@ export default function ApartmentDetails({ apartment, reviews, userGoogleId, use
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-8">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold text-gray-800">
-          Detalles de la Vivienda
+    <div className="border-4 border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+      <div className="flex items-center justify-between p-8 border-b-4 border-black bg-black text-white">
+        <h1 className="text-3xl font-black uppercase tracking-tighter">
+          Property Details
         </h1>
         <button
           onClick={() => setIsPopupOpen(true)}
-          className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-medium"
+          className="px-6 py-2 bg-white text-black border-2 border-white hover:bg-accent hover:text-white hover:border-accent font-black uppercase transition-colors"
         >
-          Crear Review
+          Create Review
         </button>
       </div>
 
-      <div className="space-y-6">
+      <div className="p-8 space-y-8">
         {/* Address Section */}
-        <div className="border-b pb-4">
-          <h2 className="text-sm font-semibold text-gray-500 uppercase mb-2">
-            Dirección
+        <div className="border-l-8 border-accent pl-6">
+          <h2 className="text-sm font-black text-black uppercase mb-2 tracking-widest">
+            Address
           </h2>
-          <p className="text-xl text-gray-800">{fullAddress}</p>
+          <p className="text-2xl font-bold text-black font-mono">{fullAddress}</p>
         </div>
 
         {/* Landlord Section */}
-        <div className="border-b pb-4">
-          <h2 className="text-sm font-semibold text-gray-500 uppercase mb-2">
-            Gestionado por
+        <div className="border-l-8 border-black pl-6">
+          <h2 className="text-sm font-black text-black uppercase mb-2 tracking-widest">
+            Managed By
           </h2>
-          <p className="text-xl text-gray-800">
+          <p className="text-2xl font-bold text-black font-mono">
             {apartment.landlordName
               ? apartment.landlordName
-              : "Sin información de gestión"}
+              : "NO INFO"}
           </p>
         </div>
 
         {/* Rating Section */}
-        <div>
-          <h2 className="text-sm font-semibold text-gray-500 uppercase mb-2">
-            Valoración
+        <div className="border-l-8 border-accent pl-6">
+          <h2 className="text-sm font-black text-black uppercase mb-2 tracking-widest">
+            Rating
           </h2>
-          <div className="flex items-center gap-2">
-            <div className="text-3xl">
+          <div className="flex items-center gap-4">
+            <div className="text-3xl flex gap-1">
               {renderStars(Math.round(apartment.averageRating))}
             </div>
-            <span className="text-gray-600 text-lg">
+            <span className="text-black text-xl font-mono font-bold">
               ({apartment.averageRating.toFixed(1)}/5 - {apartment.reviewCount}{" "}
-              {apartment.reviewCount === 1 ? "review" : "reviews"})
+              {apartment.reviewCount === 1 ? "REVIEW" : "REVIEWS"})
             </span>
           </div>
         </div>
       </div>
 
       {/* Reviews Section */}
-      <div className="mt-8 pt-8 border-t">
-        <h2 className="text-2xl font-bold mb-6 text-gray-800">Reviews</h2>
+      <div className="border-t-4 border-black p-8">
+        <h2 className="text-4xl font-black uppercase mb-8 text-black tracking-tighter">Reviews</h2>
         {localReviews.length === 0 ? (
-          <p className="text-gray-500 text-center py-8">No hay reviews todavía</p>
+          <p className="text-gray-500 text-center py-8 font-mono uppercase">No reviews yet</p>
         ) : (
           <div className="space-y-6">
             {localReviews.map((review) => (
               <div
                 key={review.id}
-                className="bg-gray-50 rounded-lg p-6 border border-gray-200"
+                className="bg-white p-6 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
               >
-                <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center justify-between mb-4 border-b-2 border-black pb-2">
                   <div className="flex items-center gap-2">
-                    <div className="text-xl">{renderStars(review.rating)}</div>
-                    <span className="text-gray-600">({review.rating}/5)</span>
+                    <div className="text-xl flex gap-1">{renderStars(review.rating)}</div>
+                    <span className="text-black font-mono font-bold">({review.rating}/5)</span>
                   </div>
-                  <span className="text-sm text-gray-500">
+                  <span className="text-sm text-black font-mono font-bold uppercase">
                     {new Date(review.createdAt).toLocaleDateString('es-ES', {
                       year: 'numeric',
                       month: 'long',
@@ -147,9 +147,9 @@ export default function ApartmentDetails({ apartment, reviews, userGoogleId, use
                   </span>
                 </div>
                 {review.title && (
-                  <h3 className="font-semibold text-gray-800 mb-2">{review.title}</h3>
+                  <h3 className="font-black text-black uppercase mb-2 text-lg">{review.title}</h3>
                 )}
-                <p className="text-gray-700 leading-relaxed">{review.content}</p>
+                <p className="text-black font-mono leading-relaxed">{review.content}</p>
               </div>
             ))}
           </div>
@@ -158,11 +158,11 @@ export default function ApartmentDetails({ apartment, reviews, userGoogleId, use
 
       {/* Review Popup */}
       {isPopupOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg shadow-xl p-8 max-w-2xl w-full">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-800">
-                ¿Qué te pareció la vivienda?
+        <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center p-4 z-50">
+          <div className="bg-white border-4 border-white p-8 max-w-2xl w-full shadow-[8px_8px_0px_0px_rgba(255,255,255,0.5)]">
+            <div className="flex justify-between items-center mb-8 border-b-4 border-black pb-4">
+              <h2 className="text-3xl font-black text-black uppercase tracking-tighter">
+                Rate Property
               </h2>
               <button
                 onClick={() => {
@@ -170,16 +170,16 @@ export default function ApartmentDetails({ apartment, reviews, userGoogleId, use
                   setReviewText("");
                   setRating(0);
                 }}
-                className="text-gray-500 hover:text-gray-700 text-2xl"
+                className="text-black hover:text-accent text-4xl font-black leading-none"
               >
                 ×
               </button>
             </div>
             
             {/* Rating stars */}
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Valoración *
+            <div className="mb-8">
+              <label className="block text-lg font-bold text-black uppercase mb-4">
+                Rating *
               </label>
               <div className="flex gap-2">
                 {[1, 2, 3, 4, 5].map((star) => (
@@ -189,13 +189,13 @@ export default function ApartmentDetails({ apartment, reviews, userGoogleId, use
                     onClick={() => setRating(star)}
                     onMouseEnter={() => setHoveredRating(star)}
                     onMouseLeave={() => setHoveredRating(0)}
-                    className="text-4xl focus:outline-none"
+                    className="text-5xl focus:outline-none transition-transform hover:scale-110"
                   >
                     <span
                       className={
                         star <= (hoveredRating || rating)
-                          ? "text-yellow-400"
-                          : "text-gray-300"
+                          ? "text-black font-black"
+                          : "text-gray-300 font-black"
                       }
                     >
                       ★
@@ -208,8 +208,8 @@ export default function ApartmentDetails({ apartment, reviews, userGoogleId, use
             <textarea
               value={reviewText}
               onChange={(e) => setReviewText(e.target.value)}
-              placeholder="Escribe tu opinión sobre la vivienda..."
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+              placeholder="WRITE YOUR REVIEW HERE..."
+              className="w-full px-4 py-4 border-4 border-black focus:outline-none focus:bg-black focus:text-white font-mono resize-none mb-6 text-lg"
               rows={6}
             />
             
@@ -278,9 +278,9 @@ export default function ApartmentDetails({ apartment, reviews, userGoogleId, use
                 }
               }}
               disabled={!rating || !reviewText.trim() || isSubmitting}
-              className="mt-4 w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium disabled:bg-gray-400 disabled:cursor-not-allowed"
+              className="w-full px-6 py-4 bg-black text-white text-xl font-black uppercase border-4 border-black hover:bg-white hover:text-black transition-none disabled:bg-gray-400 disabled:border-gray-400 disabled:cursor-not-allowed"
             >
-              {isSubmitting ? "Creando..." : "Añadir review"}
+              {isSubmitting ? "SUBMITTING..." : "SUBMIT REVIEW"}
             </button>
           </div>
         </div>

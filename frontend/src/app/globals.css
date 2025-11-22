@@ -2,25 +2,43 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #000000;
+  --accent: #ff3300; /* International Orange */
+  --border: #000000;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-border: var(--border);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* Brutalist Reset */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-mono), monospace; /* Default to mono for raw look */
+  border: 4px solid var(--border); /* Frame the whole page */
+  min-height: 100vh;
+  margin: 0;
+}
+
+/* Force sharp corners everywhere */
+* {
+  border-radius: 0 !important;
+}
+
+/* Global Input Styles for Brutalist Readability */
+input, textarea, select {
+  color: var(--foreground);
+  background-color: var(--background);
+  caret-color: var(--foreground);
+}
+
+input::placeholder, textarea::placeholder {
+  color: #666666;
+  text-transform: uppercase;
 }

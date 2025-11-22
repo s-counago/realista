@@ -12,22 +12,24 @@ export default async function ProfilePage() {
   alignUser();
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold mb-4">Profile</h1>
-        <p className="text-gray-600 mb-4">{session.user.email}</p>
-        <div className="flex gap-4 justify-center mb-4">
+    <div className="flex min-h-screen items-center justify-center bg-white p-4">
+      <div className="text-center border-4 border-black p-12 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] max-w-2xl w-full">
+        <h1 className="text-5xl font-black uppercase mb-6 tracking-tighter">Profile</h1>
+        <div className="mb-8 p-4 border-2 border-black bg-gray-100">
+          <p className="text-xl font-mono font-bold">{session.user.email}</p>
+        </div>
+        <div className="flex flex-col md:flex-row gap-6 justify-center mb-8">
           <Link
             href="/buscar-piso"
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            className="px-8 py-4 bg-black text-white text-xl font-black uppercase border-4 border-black hover:bg-white hover:text-black transition-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
           >
-            Buscar pisos
+            Search Property
           </Link>
           <Link
             href="/buscar-inmobiliaria"
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            className="px-8 py-4 bg-accent text-black text-xl font-black uppercase border-4 border-black hover:bg-black hover:text-white transition-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
           >
-            Buscar inmobiliaria
+            Search Landlord
           </Link>
         </div>
         <form
@@ -38,7 +40,7 @@ export default async function ProfilePage() {
         >
           <button
             type="submit"
-            className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+            className="w-full px-8 py-4 bg-white text-red-600 text-xl font-black uppercase border-4 border-red-600 hover:bg-red-600 hover:text-white transition-none"
           >
             Sign Out
           </button>

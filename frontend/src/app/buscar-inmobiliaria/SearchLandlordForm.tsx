@@ -46,7 +46,7 @@ export default function SearchLandlordForm() {
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label htmlFor="provincia" className="block text-sm font-medium mb-1">
+        <label htmlFor="provincia" className="block text-lg font-bold uppercase mb-2">
           Nombre de la inmobiliaria/casero
         </label>
         <input
@@ -55,12 +55,12 @@ export default function SearchLandlordForm() {
           name="name"
           value={formData.name}
           onChange={handleChange}
-          className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-3 border-4 border-black focus:outline-none focus:bg-accent focus:text-white font-mono text-lg mb-6"
+          placeholder="ENTER NAME..."
         />
-        <br />
         <button
           type="submit"
-          className="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          className="w-full px-6 py-4 text-xl font-black uppercase border-4 border-black bg-black text-white hover:bg-white hover:text-black transition-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
         >
           Buscar Inmobiliaria
         </button>

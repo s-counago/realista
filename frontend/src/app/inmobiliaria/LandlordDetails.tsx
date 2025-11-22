@@ -36,19 +36,19 @@ export default function LandlordDetails() {
     for (let i = 0; i < 5; i++) {
       if (i < fullStars) {
         stars.push(
-          <span key={i} className="text-yellow-400 text-2xl">
+          <span key={i} className="text-black text-2xl font-black">
             ★
           </span>
         );
       } else if (i === fullStars && hasHalfStar) {
         stars.push(
-          <span key={i} className="text-yellow-400 text-2xl">
+          <span key={i} className="text-black text-2xl font-black">
             ★
           </span>
         );
       } else {
         stars.push(
-          <span key={i} className="text-gray-300 text-2xl">
+          <span key={i} className="text-gray-300 text-2xl font-black">
             ★
           </span>
         );
@@ -59,10 +59,10 @@ export default function LandlordDetails() {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-lg shadow-lg p-8">
+      <div className="border-4 border-black p-8 bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
         <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded w-3/4 mb-4"></div>
-          <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+          <div className="h-8 bg-gray-200 w-3/4 mb-4"></div>
+          <div className="h-4 bg-gray-200 w-1/2"></div>
         </div>
       </div>
     );
@@ -70,67 +70,67 @@ export default function LandlordDetails() {
 
   if (!landlordFromBrowser) {
     return (
-      <div className="bg-white rounded-lg shadow-lg p-8">
+      <div className="border-4 border-black p-8 bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-red-600">Error</h2>
-          <p className="text-gray-600 mt-2">No se encontró información del propietario</p>
+          <h2 className="text-2xl font-black uppercase text-black">Error</h2>
+          <p className="text-black font-bold mt-2">No se encontró información del propietario</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+    <div className="border-4 border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
       {/* Header Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-800 p-8 text-white">
-        <h1 className="text-4xl font-bold mb-3">{landlordFromBrowser.name}</h1>
-        <div className="flex items-center gap-3">
-          <div className="flex">{renderStars(landlordFromBrowser.averageRating)}</div>
-          <span className="text-xl font-semibold">
+      <div className="border-b-4 border-black p-8 bg-black text-white">
+        <h1 className="text-5xl font-black uppercase mb-4 tracking-tighter">{landlordFromBrowser.name}</h1>
+        <div className="flex items-center gap-4">
+          <div className="flex bg-white px-2 py-1 border-2 border-white text-black">{renderStars(landlordFromBrowser.averageRating)}</div>
+          <span className="text-2xl font-black text-accent">
             {landlordFromBrowser.averageRating.toFixed(1)}
           </span>
-          <span className="text-blue-100">
+          <span className="text-white font-mono uppercase">
             ({landlordFromBrowser.reviewCount}{" "}
-            {landlordFromBrowser.reviewCount === 1 ? "reseña" : "reseñas"})
+            {landlordFromBrowser.reviewCount === 1 ? "REVIEW" : "REVIEWS"})
           </span>
         </div>
       </div>
 
       {/* Contact Information Section */}
-      <div className="p-8 border-b border-gray-200">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">
-          Información de Contacto
+      <div className="p-8 border-b-4 border-black">
+        <h2 className="text-2xl font-black uppercase text-black mb-6 border-l-8 border-accent pl-4">
+          Contact Info
         </h2>
-        <div className="space-y-3">
+        <div className="space-y-4 font-mono text-lg">
           {landlordFromBrowser.email ? (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
               <span className="text-2xl">📧</span>
               <a
                 href={`mailto:${landlordFromBrowser.email}`}
-                className="text-blue-600 hover:underline"
+                className="text-black hover:bg-accent hover:text-white transition-colors px-1"
               >
                 {landlordFromBrowser.email}
               </a>
             </div>
           ) : (
-            <div className="flex items-center gap-3 text-gray-400">
+            <div className="flex items-center gap-4 text-gray-400">
               <span className="text-2xl">📧</span>
               <span>Email no disponible</span>
             </div>
           )}
 
           {landlordFromBrowser.phone ? (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
               <span className="text-2xl">📞</span>
               <a
                 href={`tel:${landlordFromBrowser.phone}`}
-                className="text-blue-600 hover:underline"
+                className="text-black hover:bg-accent hover:text-white transition-colors px-1"
               >
                 {landlordFromBrowser.phone}
               </a>
             </div>
           ) : (
-            <div className="flex items-center gap-3 text-gray-400">
+            <div className="flex items-center gap-4 text-gray-400">
               <span className="text-2xl">📞</span>
               <span>Teléfono no disponible</span>
             </div>
@@ -140,35 +140,33 @@ export default function LandlordDetails() {
 
       {/* Rating Statistics Section */}
       <div className="p-8">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">
-          Valoración General
+        <h2 className="text-2xl font-black uppercase text-black mb-6 border-l-8 border-accent pl-4">
+          Overall Rating
         </h2>
-        <div className="space-y-4">
+        <div className="space-y-6">
           <div>
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-gray-600">Puntuación media</span>
-              <span className="text-2xl font-bold text-blue-600">
+            <div className="flex items-center justify-between mb-2 font-bold uppercase">
+              <span className="text-black">Average Score</span>
+              <span className="text-2xl font-black text-black">
                 {landlordFromBrowser.averageRating.toFixed(1)}/5.0
               </span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
+            <div className="w-full border-4 border-black h-8 p-1">
               <div
-                className="bg-blue-600 h-4 rounded-full transition-all duration-500"
+                className="bg-accent h-full transition-all duration-500"
                 style={{
                   width: `${(landlordFromBrowser.averageRating / 5) * 100}%`,
                 }}
               ></div>
             </div>
           </div>
-          <div className="text-center pt-4">
-            <p className="text-gray-600">
-              Basado en{" "}
-              <span className="font-semibold text-gray-800">
+          <div className="text-center pt-4 border-t-4 border-black border-dashed">
+            <p className="text-black font-mono mt-4">
+              BASED ON{" "}
+              <span className="font-black bg-black text-white px-2">
                 {landlordFromBrowser.reviewCount}
               </span>{" "}
-              {landlordFromBrowser.reviewCount === 1
-                ? "reseña verificada"
-                : "reseñas verificadas"}
+              VERIFIED {landlordFromBrowser.reviewCount === 1 ? "REVIEW" : "REVIEWS"}
             </p>
           </div>
         </div>
