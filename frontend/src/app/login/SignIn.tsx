@@ -8,7 +8,7 @@ export default function SignIn() {
         handleGoogleSignIn();
       }}
     >
-      <button className="w-full px-6 py-4 bg-white border-4 border-black hover:bg-black hover:text-white transition-none flex items-center justify-center gap-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]">
+      <button className="group w-full px-6 py-4 bg-white border-4 border-black hover:bg-black hover:text-white transition-none flex items-center justify-center gap-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]">
         <svg className="w-6 h-6" viewBox="0 0 24 24">
           <path
             fill="currentColor"
