@@ -22,7 +22,7 @@ export default function SearchAddressForm() {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_API}/searchAddress`,
-        {
+        { //ESTOY HACIENDO UN FETCH AL BACKEND QUE ES PRIVADO ASÍ QUE TENGO QUE HACERLO SERVER SIDE 
           method: "POST",
           headers: {
             "Content-Type": "application/json",
