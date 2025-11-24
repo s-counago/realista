@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { getAddress } from "./actions";
+import type { AddressInterface } from "./actions";
 
 export default function SearchAddressForm() {
   const router = useRouter();
@@ -19,33 +21,24 @@ export default function SearchAddressForm() {
     e.preventDefault();
     setNotFoundMessage("");
 
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_API}/searchAddress`,
-        { //ESTOY HACIENDO UN FETCH AL BACKEND QUE ES PRIVADO ASÍ QUE TENGO QUE HACERLO SERVER SIDE 
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+    const response: AddressInterface = await getAddress(formData);
 
-      if (!response.ok) {
-        switch (response.status) {
-          case 404:
-            setNotFoundMessage(
-              "Vivienda no encontrada, ¿podrías crearla y ayudarnos a mejorar Realista?"
-            );
-            return;
-        }
+    if (response.error !== "") {
+      switch (response.error) {
+        case "404":
+          setNotFoundMessage(
+            "Vivienda no encontrada, ¿podrías crearla y ayudarnos a mejorar Realista?"
+          );
+          return;
+        case "500":
+          setNotFoundMessage(
+            "La hemos liado al encontrar la vivienda :("
+          )
+          return;
       }
-
-      const data = await response.json();
-      router.push(`/vivienda?id=${data.id}`);
-    } catch (error) {
-      alert(error);
     }
+
+    router.push(`/vivienda?id=${response.id}`);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,7 +51,10 @@ export default function SearchAddressForm() {
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="grid grid-cols-2 gap-6">
         <div>
-          <label htmlFor="provincia" className="block text-sm font-bold uppercase mb-2">
+          <label
+            htmlFor="provincia"
+            className="block text-sm font-bold uppercase mb-2"
+          >
             Provincia
           </label>
           <input
@@ -71,7 +67,10 @@ export default function SearchAddressForm() {
           />
         </div>
         <div>
-          <label htmlFor="numero" className="block text-sm font-bold uppercase mb-2">
+          <label
+            htmlFor="numero"
+            className="block text-sm font-bold uppercase mb-2"
+          >
             Número
           </label>
           <input
@@ -100,7 +99,10 @@ export default function SearchAddressForm() {
           />
         </div>
         <div>
-          <label htmlFor="piso" className="block text-sm font-bold uppercase mb-2">
+          <label
+            htmlFor="piso"
+            className="block text-sm font-bold uppercase mb-2"
+          >
             Piso (opcional)
           </label>
           <input
@@ -113,7 +115,10 @@ export default function SearchAddressForm() {
           />
         </div>
         <div>
-          <label htmlFor="calle" className="block text-sm font-bold uppercase mb-2">
+          <label
+            htmlFor="calle"
+            className="block text-sm font-bold uppercase mb-2"
+          >
             Calle
           </label>
           <input
@@ -126,7 +131,10 @@ export default function SearchAddressForm() {
           />
         </div>
         <div>
-          <label htmlFor="puerta" className="block text-sm font-bold uppercase mb-2">
+          <label
+            htmlFor="puerta"
+            className="block text-sm font-bold uppercase mb-2"
+          >
             Puerta (opcional)
           </label>
           <input
