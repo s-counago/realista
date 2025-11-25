@@ -43,7 +43,7 @@ export async function getLandlord(landlordPayload: SearchLandlordPayload) {
   };
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_API}/landlord/searchLandlord`,
+      `${process.env.NEXT_PUBLIC_BACKEND_API}/api/landlord/searchLandlord`,
       {
         method: "POST",
         headers: {
