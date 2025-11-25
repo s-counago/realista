@@ -39,7 +39,14 @@ interface ApartmentDetailsProps {
   userImage: string;
 }
 
-export default function ApartmentDetails({ apartment, reviews, userGoogleId, userName, userEmail, userImage }: ApartmentDetailsProps) {
+export default function ApartmentDetails({
+  apartment,
+  reviews,
+  userGoogleId,
+  userName,
+  userEmail,
+  userImage,
+}: ApartmentDetailsProps) {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(0);
@@ -60,7 +67,9 @@ export default function ApartmentDetails({ apartment, reviews, userGoogleId, use
       stars.push(
         <span
           key={i}
-          className={i <= rating ? "text-black font-black" : "text-gray-300 font-black"}
+          className={
+            i <= rating ? "text-black font-black" : "text-gray-300 font-black"
+          }
         >
           ★
         </span>
@@ -89,7 +98,9 @@ export default function ApartmentDetails({ apartment, reviews, userGoogleId, use
           <h2 className="text-sm font-black text-black uppercase mb-2 tracking-widest">
             Address
           </h2>
-          <p className="text-2xl font-bold text-black font-mono">{fullAddress}</p>
+          <p className="text-2xl font-bold text-black font-mono">
+            {fullAddress}
+          </p>
         </div>
 
         {/* Landlord Section */}
@@ -98,9 +109,7 @@ export default function ApartmentDetails({ apartment, reviews, userGoogleId, use
             Managed By
           </h2>
           <p className="text-2xl font-bold text-black font-mono">
-            {apartment.landlordName
-              ? apartment.landlordName
-              : "NO INFO"}
+            {apartment.landlordName ? apartment.landlordName : "NO INFO"}
           </p>
         </div>
 
@@ -123,9 +132,13 @@ export default function ApartmentDetails({ apartment, reviews, userGoogleId, use
 
       {/* Reviews Section */}
       <div className="border-t-4 border-black p-8">
-        <h2 className="text-4xl font-black uppercase mb-8 text-black tracking-tighter">Reviews</h2>
+        <h2 className="text-4xl font-black uppercase mb-8 text-black tracking-tighter">
+          Reviews
+        </h2>
         {localReviews.length === 0 ? (
-          <p className="text-gray-500 text-center py-8 font-mono uppercase">No reviews yet</p>
+          <p className="text-gray-500 text-center py-8 font-mono uppercase">
+            No reviews yet
+          </p>
         ) : (
           <div className="space-y-6">
             {localReviews.map((review) => (
@@ -135,21 +148,29 @@ export default function ApartmentDetails({ apartment, reviews, userGoogleId, use
               >
                 <div className="flex items-center justify-between mb-4 border-b-2 border-black pb-2">
                   <div className="flex items-center gap-2">
-                    <div className="text-xl flex gap-1">{renderStars(review.rating)}</div>
-                    <span className="text-black font-mono font-bold">({review.rating}/5)</span>
+                    <div className="text-xl flex gap-1">
+                      {renderStars(review.rating)}
+                    </div>
+                    <span className="text-black font-mono font-bold">
+                      ({review.rating}/5)
+                    </span>
                   </div>
                   <span className="text-sm text-black font-mono font-bold uppercase">
-                    {new Date(review.createdAt).toLocaleDateString('es-ES', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
+                    {new Date(review.createdAt).toLocaleDateString("es-ES", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
                     })}
                   </span>
                 </div>
                 {review.title && (
-                  <h3 className="font-black text-black uppercase mb-2 text-lg">{review.title}</h3>
+                  <h3 className="font-black text-black uppercase mb-2 text-lg">
+                    {review.title}
+                  </h3>
                 )}
-                <p className="text-black font-mono leading-relaxed">{review.content}</p>
+                <p className="text-black font-mono leading-relaxed">
+                  {review.content}
+                </p>
               </div>
             ))}
           </div>
@@ -175,7 +196,7 @@ export default function ApartmentDetails({ apartment, reviews, userGoogleId, use
                 ×
               </button>
             </div>
-            
+
             {/* Rating stars */}
             <div className="mb-8">
               <label className="block text-lg font-bold text-black uppercase mb-4">
@@ -204,7 +225,7 @@ export default function ApartmentDetails({ apartment, reviews, userGoogleId, use
                 ))}
               </div>
             </div>
-            
+
             <textarea
               value={reviewText}
               onChange={(e) => setReviewText(e.target.value)}
@@ -212,22 +233,25 @@ export default function ApartmentDetails({ apartment, reviews, userGoogleId, use
               className="w-full px-4 py-4 border-4 border-black focus:outline-none focus:bg-black focus:text-white font-mono resize-none mb-6 text-lg"
               rows={6}
             />
-            
+
             <button
               onClick={async () => {
                 setIsSubmitting(true);
                 try {
                   // First, get the user ID from the backend using googleId
-                  const userResponse = await fetch("http://localhost:8080/api/alignUser", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ 
-                      googleId: userGoogleId,
-                      name: userName,
-                      email: userEmail,
-                      pfp: userImage,
-                    }),
-                  });
+                  const userResponse = await fetch(
+                    `${process.env.NEXT_PUBLIC_BACKEND_API}/api/alignUser`,
+                    {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        googleId: userGoogleId,
+                        name: userName,
+                        email: userEmail,
+                        pfp: userImage,
+                      }),
+                    }
+                  );
 
                   if (!userResponse.ok) {
                     throw new Error("Failed to get user");
@@ -242,33 +266,42 @@ export default function ApartmentDetails({ apartment, reviews, userGoogleId, use
                     rating: rating,
                     content: reviewText,
                   };
-                  
+
                   console.log("Sending review:", reviewPayload);
-                  
-                  const response = await fetch("http://localhost:8080/api/reviews", {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(reviewPayload),
-                  });
+
+                  const response = await fetch(
+                    `${process.env.NEXT_PUBLIC_BACKEND_API}/api/reviews`,
+                    {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify(reviewPayload),
+                    }
+                  );
 
                   if (!response.ok) {
                     const errorText = await response.text();
-                    console.error("Error response:", response.status, errorText);
-                    throw new Error(`Failed to create review: ${response.status} - ${errorText}`);
+                    console.error(
+                      "Error response:",
+                      response.status,
+                      errorText
+                    );
+                    throw new Error(
+                      `Failed to create review: ${response.status} - ${errorText}`
+                    );
                   }
 
                   const newReview = await response.json();
-                  
+
                   // Add the new review to the list
                   setLocalReviews([newReview, ...localReviews]);
-                  
+
                   // Close popup and reset form
                   setIsPopupOpen(false);
                   setReviewText("");
                   setRating(0);
-                  
+
                   // Refresh the page to show updated apartment rating
                   window.location.reload();
                 } catch (error) {

@@ -2,6 +2,11 @@
 
 import { useState, createContext } from "react";
 import { useRouter } from "next/navigation";
+import type {
+  SearchLandlordPayload,
+  LandlordDetailsInterface,
+} from "./actions";
+import { getLandlord } from "./actions";
 
 export default function SearchLandlordForm() {
   const router = useRouter();
@@ -11,27 +16,21 @@ export default function SearchLandlordForm() {
     e.preventDefault();
 
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_API}/landlord/searchLandlord`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
+      const landlordPayload: SearchLandlordPayload = { name: formData.name };
+      const landlord: LandlordDetailsInterface = await getLandlord(
+        landlordPayload
       );
 
-      if (response.status === 404) {
+      if (landlord.error === 404) {
         alert("no esite");
         throw new Error("404 No existe inmobiliaria");
       }
-
-      const data = await response.json();
-      console.log(data);
-      sessionStorage.setItem("landlord-data", JSON.stringify(data));
-      console.log(sessionStorage.getItem("landlord-data"));
-      router.push(`/inmobiliaria?id=${data.id}`);
+      if (landlord.error === 500) {
+        alert("woooopsies la cagamos, somehow");
+        throw new Error("500 woopsies desde la búsqueda de SearchLandlordForm");
+      }
+      sessionStorage.setItem("landlord-data", JSON.stringify(landlord));
+      router.push(`/inmobiliaria?id=${landlord.id}`);
     } catch (error) {
       console.log(error);
     }
@@ -46,7 +45,7 @@ export default function SearchLandlordForm() {
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label htmlFor="provincia" className="block text-lg font-bold uppercase mb-2">
+        <label className="block text-lg font-bold uppercase mb-2">
           Nombre de la inmobiliaria/casero
         </label>
         <input
