@@ -67,7 +67,7 @@ fi
 
 # Start Backend
 echo -e "${GREEN}☕ Starting Backend (Spring Boot)...${NC}"
-./mvnw spring-boot:run &
+./mvnw spring-boot:run
 BACKEND_PID=$!
 echo -e "Backend started with PID: $BACKEND_PID\n"
 

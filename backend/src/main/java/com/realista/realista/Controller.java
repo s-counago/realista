@@ -14,6 +14,8 @@ import com.realista.realista.services.LandlordService;
 import com.realista.realista.services.ReviewService;
 import com.realista.realista.services.UserService;
 import org.apache.coyote.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +29,7 @@ import java.util.Optional;
 @RestController
 public class Controller {
 
+    private static final Logger log = LoggerFactory.getLogger(Controller.class);
     private final UserService userService;
     private final ApartmentService apartmentService;
     private final ReviewService reviewService;
@@ -122,9 +125,14 @@ public class Controller {
 
     @PostMapping("/api/landlord/searchLandlord")
     public ResponseEntity<Landlord> searchLandlord(@RequestBody SearchLandlordRequest landlord){
-        Optional<Landlord> existinLandlord = landlordService.findByName(landlord.getName());
-        if (existinLandlord.isPresent())
-            return ResponseEntity.ok(existinLandlord.get());
+        log.error("YOOOOOOOOOOOOOO");
+        log.error(String.valueOf(landlord));
+        log.error(landlord.getName());
+        System.out.println("TEEEEEEEEEEEEEEEEEST");
+        System.out.flush();
+        Optional<Landlord> existingLandlord = landlordService.findByName(landlord.getName());
+        if (existingLandlord.isPresent())
+            return ResponseEntity.ok(existingLandlord.get());
         return ResponseEntity.notFound().build();
     }
 

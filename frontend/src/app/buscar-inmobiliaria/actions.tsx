@@ -42,17 +42,22 @@ export async function getLandlord(landlordPayload: SearchLandlordPayload) {
     error: 500,
   };
   try {
+    console.log(
+      `${process.env.NEXT_PUBLIC_BACKEND_API}/landlord/searchLandlord`
+    );
+    console.log(JSON.stringify(landlordPayload));
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_API}/api/landlord/searchLandlord`,
+      `${process.env.NEXT_PUBLIC_BACKEND_API}/landlord/searchLandlord`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(landlordPayload.name),
+        body: JSON.stringify(landlordPayload),
       }
     );
     if (!response.ok) {
+      console.log(response.status, response.statusText);
       return landlordNotFound;
     }
     const landlord = await response.json();
