@@ -125,16 +125,14 @@ public class Controller {
 
     @PostMapping("/api/landlord/searchLandlord")
     public ResponseEntity<Landlord> searchLandlord(@RequestBody SearchLandlordRequest landlord){
-        log.error("YOOOOOOOOOOOOOO");
-        log.error(String.valueOf(landlord));
-        log.error(landlord.getName());
-        System.out.println("TEEEEEEEEEEEEEEEEEST");
-        System.out.flush();
         Optional<Landlord> existingLandlord = landlordService.findByName(landlord.getName());
         if (existingLandlord.isPresent())
             return ResponseEntity.ok(existingLandlord.get());
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/api/landlords/{id}/reviews")
+    public List<Review> getLandlordReviews(@PathVariable Long id){ return reviewService.getReviewsByLandlordId(id);}
 
     @PostMapping("/api/reviews")
     public ResponseEntity<Review> createReview(@RequestBody CreateReviewRequest request) {

@@ -7,14 +7,21 @@ interface Landlord {
   name: string;
   email?: string;
   phone?: string;
-  averageRating: number;
-  reviewCount: number;
-  createdAt?: string;
-  updatedAt?: string;
+  average_rating: number;
+  review_count: number;
+  created_at?: string;
+  updated_at?: string;
+}
+
+interface Review {
+  title: string;
+  content: string;
+  createdAt: Date;
 }
 
 export default function LandlordDetails() {
-  const [landlordFromBrowser, setLandlordFromBrowser] = useState<Landlord | null>(null);
+  const [landlordFromBrowser, setLandlordFromBrowser] =
+    useState<Landlord | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -43,7 +50,7 @@ export default function LandlordDetails() {
       } else if (i === fullStars && hasHalfStar) {
         stars.push(
           <span key={i} className="text-black text-2xl font-black">
-            ★
+            ⯨
           </span>
         );
       } else {
@@ -73,7 +80,9 @@ export default function LandlordDetails() {
       <div className="border-4 border-black p-8 bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
         <div className="text-center">
           <h2 className="text-2xl font-black uppercase text-black">Error</h2>
-          <p className="text-black font-bold mt-2">No se encontró información del propietario</p>
+          <p className="text-black font-bold mt-2">
+            No se encontró información del propietario
+          </p>
         </div>
       </div>
     );
@@ -83,15 +92,19 @@ export default function LandlordDetails() {
     <div className="border-4 border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
       {/* Header Section */}
       <div className="border-b-4 border-black p-8 bg-black text-white">
-        <h1 className="text-5xl font-black uppercase mb-4 tracking-tighter">{landlordFromBrowser.name}</h1>
+        <h1 className="text-5xl font-black uppercase mb-4 tracking-tighter">
+          {landlordFromBrowser.name}
+        </h1>
         <div className="flex items-center gap-4">
-          <div className="flex bg-white px-2 py-1 border-2 border-white text-black">{renderStars(landlordFromBrowser.averageRating)}</div>
+          <div className="flex bg-white px-2 py-1 border-2 border-white text-black">
+            {renderStars(landlordFromBrowser.average_rating)}
+          </div>
           <span className="text-2xl font-black text-accent">
-            {landlordFromBrowser.averageRating.toFixed(1)}
+            {landlordFromBrowser.average_rating.toFixed(1)}
           </span>
           <span className="text-white font-mono uppercase">
-            ({landlordFromBrowser.reviewCount}{" "}
-            {landlordFromBrowser.reviewCount === 1 ? "REVIEW" : "REVIEWS"})
+            ({landlordFromBrowser.review_count}{" "}
+            {landlordFromBrowser.review_count === 1 ? "REVIEW" : "REVIEWS"})
           </span>
         </div>
       </div>
@@ -148,14 +161,14 @@ export default function LandlordDetails() {
             <div className="flex items-center justify-between mb-2 font-bold uppercase">
               <span className="text-black">Average Score</span>
               <span className="text-2xl font-black text-black">
-                {landlordFromBrowser.averageRating.toFixed(1)}/5.0
+                {landlordFromBrowser.average_rating.toFixed(1)}/5.0
               </span>
             </div>
             <div className="w-full border-4 border-black h-8 p-1">
               <div
                 className="bg-accent h-full transition-all duration-500"
                 style={{
-                  width: `${(landlordFromBrowser.averageRating / 5) * 100}%`,
+                  width: `${(landlordFromBrowser.average_rating / 5) * 100}%`,
                 }}
               ></div>
             </div>
@@ -164,11 +177,67 @@ export default function LandlordDetails() {
             <p className="text-black font-mono mt-4">
               BASED ON{" "}
               <span className="font-black bg-black text-white px-2">
-                {landlordFromBrowser.reviewCount}
+                {landlordFromBrowser.review_count}
               </span>{" "}
-              VERIFIED {landlordFromBrowser.reviewCount === 1 ? "REVIEW" : "REVIEWS"}
+              VERIFIED{" "}
+              {landlordFromBrowser.review_count === 1 ? "REVIEW" : "REVIEWS"}
             </p>
           </div>
+        </div>
+      </div>
+      {/* Reviews Section */}
+      <div className="p-8 border-t-4 border-black bg-gray-50">
+        <h2 className="text-2xl font-black uppercase text-black mb-8 border-l-8 border-accent pl-4">
+          Latest Reviews
+        </h2>
+        {/* Reviews List Container */}
+        <div className="space-y-6">
+          {/* TODO: Map your reviews here. This is a visual placeholder. */}
+          {[1, 2, 3].map((item) => (
+            <div
+              key={item}
+              className="bg-white border-4 border-black p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+            >
+              {/* Review Header */}
+              <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 border-b-2 border-black border-dashed pb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-black text-white flex items-center justify-center font-black text-xl">
+                    U{/* Placeholder for User Initial */}
+                  </div>
+                  <div>
+                    <p className="font-bold uppercase text-lg leading-none">
+                      User Name
+                    </p>
+                    <p className="font-mono text-xs text-gray-500 mt-1">
+                      OCT 24, 2023
+                    </p>
+                  </div>
+                </div>
+
+                {/* Star Rating */}
+                <div className="flex mt-2 md:mt-0">{renderStars(5)}</div>
+              </div>
+              {/* Review Content */}
+              <div>
+                <h3 className="text-xl font-black uppercase mb-2 text-accent">
+                  Absolutely Fantastic Experience
+                </h3>
+                <p className="font-mono text-lg leading-relaxed text-gray-800">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. The
+                  landlord was incredibly responsive and the apartment matched
+                  the photos perfectly. Highly recommended!
+                </p>
+              </div>
+            </div>
+          ))}
+          {/* Empty State Placeholder (Optional) */}
+          {landlordFromBrowser.review_count === 0 && (
+            <div className="text-center py-12 border-4 border-dashed border-gray-300">
+              <p className="font-mono text-xl text-gray-400 uppercase">
+                No reviews yet
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>
