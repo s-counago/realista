@@ -13,13 +13,15 @@ interface Landlord {
   updated_at?: string;
 }
 
-interface Review {
+export interface Review {
   title: string;
   content: string;
   createdAt: Date;
+  rating: number;
+  name: string;
 }
 
-export default function LandlordDetails() {
+export default function LandlordDetails({ reviews }: any) {
   const [landlordFromBrowser, setLandlordFromBrowser] =
     useState<Landlord | null>(null);
   const [loading, setLoading] = useState(true);
@@ -63,6 +65,13 @@ export default function LandlordDetails() {
     }
     return stars;
   };
+  const parsedReviews: Review[] = reviews.map((reviewJson: any) => ({
+    title: reviewJson.title,
+    content: reviewJson.content,
+    createdAt: reviewJson.createdAt,
+    rating: reviewJson.rating,
+    name: reviewJson.name,
+  }));
 
   if (loading) {
     return (
@@ -193,9 +202,9 @@ export default function LandlordDetails() {
         {/* Reviews List Container */}
         <div className="space-y-6">
           {/* TODO: Map your reviews here. This is a visual placeholder. */}
-          {[1, 2, 3].map((item) => (
+          {parsedReviews.map((review) => (
             <div
-              key={item}
+              key={review.title}
               className="bg-white border-4 border-black p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
             >
               {/* Review Header */}
@@ -206,26 +215,26 @@ export default function LandlordDetails() {
                   </div>
                   <div>
                     <p className="font-bold uppercase text-lg leading-none">
-                      User Name
+                      {review.name}
                     </p>
                     <p className="font-mono text-xs text-gray-500 mt-1">
-                      OCT 24, 2023
+                      {review.createdAt.toString()}
                     </p>
                   </div>
                 </div>
 
                 {/* Star Rating */}
-                <div className="flex mt-2 md:mt-0">{renderStars(5)}</div>
+                <div className="flex mt-2 md:mt-0">
+                  {renderStars(review.rating)}
+                </div>
               </div>
               {/* Review Content */}
               <div>
                 <h3 className="text-xl font-black uppercase mb-2 text-accent">
-                  Absolutely Fantastic Experience
+                  {review.title}
                 </h3>
                 <p className="font-mono text-lg leading-relaxed text-gray-800">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. The
-                  landlord was incredibly responsive and the apartment matched
-                  the photos perfectly. Highly recommended!
+                  {review.content}
                 </p>
               </div>
             </div>

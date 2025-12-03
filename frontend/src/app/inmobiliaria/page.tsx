@@ -1,6 +1,7 @@
 import { auth } from "../../../auth";
 import { redirect } from "next/navigation";
 import LandlordDetails from "./LandlordDetails";
+import { getReviewsForLandlord } from "./actions";
 
 interface InmobiliariaPageProps {
   searchParams: Promise<{ id?: string }>;
@@ -26,20 +27,20 @@ export default async function InmobiliariaPage({
       </div>
     );
   }
-  let landlord;
   let reviews;
   try {
-    // TODO: Fetch landlord data from backend (actually from the browser)
-    // TODO: Fetch reviews from backend
-    landlord = { name: "Inmobiliaria testooo" };
-    reviews = [];
+    reviews = await getReviewsForLandlord(
+      parseInt(params.id ? params.id : "0")
+    );
   } catch (error) {
     console.log(error);
     return (
       <div className="flex min-h-screen items-center justify-center p-4 bg-white">
         <div className="text-center border-4 border-black p-8 bg-accent">
           <h1 className="text-4xl font-black uppercase text-black">Error</h1>
-          <p className="text-black font-bold mt-2">Failed to load landlord details</p>
+          <p className="text-black font-bold mt-2">
+            Failed to load landlord details
+          </p>
         </div>
       </div>
     );
@@ -48,7 +49,7 @@ export default async function InmobiliariaPage({
     <div className="flex min-h-screen items-center justify-center p-4 bg-white">
       <div className="w-full max-w-4xl">
         {/* TODO: Create LandlordDetails component and pass data */}
-        <LandlordDetails />
+        <LandlordDetails reviews={reviews} />
         {/* Add your content here! */}
       </div>
     </div>

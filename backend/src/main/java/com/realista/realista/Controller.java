@@ -52,6 +52,11 @@ public class Controller {
         return userService.getAllUsers();  // SELECT * FROM users
     }
 
+    @GetMapping("/api/users/{id}")
+    public Optional<User> getUser(@PathVariable Long id){ return userService.getUserById(id);}
+
+
+
     @PostMapping("/api/alignUser")
     public User alignUser(@RequestBody AlignUserRequest request) {
         return userService.findOrCreateUser(request);
