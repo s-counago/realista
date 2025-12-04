@@ -147,32 +147,53 @@ public class Controller {
             return ResponseEntity.badRequest().build();
         }
 
+        if (request.getApartmentId() == null || request.getLandlordId() == null){
+            return ResponseEntity.badRequest().build();
+        }
+
         // Create new review
         Review newReview = new Review();
         newReview.setUserId(request.getUserId());
         newReview.setApartmentId(request.getApartmentId());
+        newReview.setLandlordId(request.getLandlordId());
         newReview.setRating(request.getRating());
         newReview.setContent(request.getContent());
         newReview.setTitle(request.getTitle());
 
         Review savedReview = reviewService.createReview(newReview);
 
-        // Update apartment's average rating and review count
-        Optional<Apartment> apartmentOpt = apartmentService.findById(request.getApartmentId());
-        if (apartmentOpt.isPresent()) {
-            Apartment apartment = apartmentOpt.get();
-            List<Review> allReviews = reviewService.getReviewsByApartmentId(request.getApartmentId());
-            
-            // Calculate new average rating
-            double totalRating = 0;
-            for (Review review : allReviews) {
-                totalRating += review.getRating();
+        // Update apartment's or landlord's average rating and review count
+        if (request.getApartmentId() != null) {
+            Optional<Apartment> apartmentOpt = apartmentService.findById(request.getApartmentId());
+            if (apartmentOpt.isPresent()) {
+                Apartment apartment = apartmentOpt.get();
+                List<Review> allReviews = reviewService.getReviewsByApartmentId(request.getApartmentId());
+
+                // Calculate new average rating
+                double totalRating = 0;
+                for (Review review : allReviews) {
+                    totalRating += review.getRating();
+                }
+                double averageRating = totalRating / allReviews.size();
+
+                apartment.setAverageRating(averageRating);
+                apartment.setReviewCount(allReviews.size());
+                apartmentService.updateApartment(apartment);
             }
-            double averageRating = totalRating / allReviews.size();
-            
-            apartment.setAverageRating(averageRating);
-            apartment.setReviewCount(allReviews.size());
-            apartmentService.updateApartment(apartment);
+        } else {
+            Optional<Landlord> landlordOpt = landlordService.findById(request.getLandlordId());
+            if (landlordOpt.isPresent()){
+                Landlord landlord = landlordOpt.get();
+                List<Review> allReviews = reviewService.getReviewsByLandlordId(request.getLandlordId());
+
+                double totalRating = 0;
+                for (Review review : allReviews) {
+                    totalRating += review.getRating();
+                }
+                landlord.setAverageRating(totalRating/allReviews.size());
+                landlord.setReviewCount(allReviews.size());
+                landlordService.updateLandlord(landlord);
+            }
         }
 
         return ResponseEntity.ok(savedReview);

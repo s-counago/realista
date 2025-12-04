@@ -25,6 +25,7 @@ export default function LandlordDetails({ reviews }: any) {
   const [landlordFromBrowser, setLandlordFromBrowser] =
     useState<Landlord | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -115,6 +116,12 @@ export default function LandlordDetails({ reviews }: any) {
             ({landlordFromBrowser.review_count}{" "}
             {landlordFromBrowser.review_count === 1 ? "REVIEW" : "REVIEWS"})
           </span>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="bg-accent text-black font-black uppercase px-4 py-2 border-2 border-black hover:bg-white transition-all ml-4 shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:shadow-none translate-x-0 hover:translate-x-1 hover:translate-y-1"
+          >
+            Crear Review
+          </button>
         </div>
       </div>
 
@@ -249,6 +256,42 @@ export default function LandlordDetails({ reviews }: any) {
           )}
         </div>
       </div>
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white border-4 border-black p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] max-w-lg w-full relative">
+            <button
+              onClick={() => setIsModalOpen(false)}
+              className="absolute top-4 right-4 font-black text-xl hover:text-accent"
+            >
+              X
+            </button>
+
+            <h2 className="text-2xl font-black uppercase mb-6 border-l-8 border-accent pl-4">
+              Crear Review
+            </h2>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block font-bold uppercase mb-2">Título</label>
+                <input
+                  type="text"
+                  className="w-full border-4 border-black p-2 font-mono focus:outline-none focus:border-accent"
+                />
+              </div>
+              <div>
+                <label className="block font-bold uppercase mb-2">
+                  Contenido
+                </label>
+                <textarea className="w-full border-4 border-black p-2 font-mono h-32 focus:outline-none focus:border-accent" />
+              </div>
+              <button className="bg-black text-white font-black uppercase px-6 py-3 hover:bg-accent hover:text-black border-4 border-black transition-all w-full shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1">
+                Enviar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

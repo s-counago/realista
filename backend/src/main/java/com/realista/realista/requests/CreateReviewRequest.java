@@ -3,6 +3,7 @@ package com.realista.realista.requests;
 public class CreateReviewRequest {
     private Long userId;
     private Long apartmentId;
+    private Long landlordId;
     private Integer rating;
     private String content;
     private String title;
@@ -22,4 +23,7 @@ public class CreateReviewRequest {
 
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
+
+    public Long getLandlordId() { return landlordId; }
+    public void setLandlordId(Long landlordId) { this.landlordId = landlordId; }
 }
