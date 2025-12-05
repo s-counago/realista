@@ -167,7 +167,7 @@ public class Controller {
         Review savedReview = reviewService.createReview(newReview);
 
         // Update apartment's or landlord's average rating and review count
-        if (request.getApartmentId() != null) {
+        if (request.getApartmentId() != 0) {
             Optional<Apartment> apartmentOpt = apartmentService.findById(request.getApartmentId());
             if (apartmentOpt.isPresent()) {
                 Apartment apartment = apartmentOpt.get();
