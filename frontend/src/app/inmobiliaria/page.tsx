@@ -52,6 +52,7 @@ export default async function InmobiliariaPage({
         <LandlordDetails
           reviews={reviews}
           handleCrearReview={createReviewForLandlord}
+          landlordId={params.id}
         />
         {/* Add your content here! */}
       </div>

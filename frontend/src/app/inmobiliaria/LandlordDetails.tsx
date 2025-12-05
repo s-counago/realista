@@ -21,11 +21,19 @@ export interface Review {
   name: string;
 }
 
-export default function LandlordDetails({ reviews, handleCrearReview }: any) {
+export default function LandlordDetails({
+  reviews,
+  handleCrearReview,
+  landlordId,
+}: any) {
   const [landlordFromBrowser, setLandlordFromBrowser] =
     useState<Landlord | null>(null);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [titulo, setTitulo] = useState("");
+  const [contenido, setContenido] = useState("");
+  const [rating, setRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -274,9 +282,38 @@ export default function LandlordDetails({ reviews, handleCrearReview }: any) {
             <div className="space-y-4">
               <div>
                 <label className="block font-bold uppercase mb-2">
+                  Calificación
+                </label>
+                <div className="flex gap-2">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      type="button"
+                      onClick={() => setRating(star)}
+                      onMouseEnter={() => setHoverRating(star)}
+                      onMouseLeave={() => setHoverRating(0)}
+                      className="text-4xl focus:outline-none transition-transform hover:scale-110"
+                    >
+                      <span
+                        className={
+                          star <= (hoverRating || rating)
+                            ? "text-black"
+                            : "text-gray-300"
+                        }
+                      >
+                        ★
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <label className="block font-bold uppercase mb-2">
                   Título
                   <input
                     id="titulo"
+                    value={titulo}
+                    onChange={(e) => setTitulo(e.currentTarget.value)}
                     type="text"
                     className="w-full border-4 border-black p-2 font-mono focus:outline-none focus:border-accent"
                   />
@@ -287,12 +324,21 @@ export default function LandlordDetails({ reviews, handleCrearReview }: any) {
                   Contenido
                   <textarea
                     id="contenido"
+                    value={contenido}
+                    onChange={(e) => setContenido(e.currentTarget.value)}
                     className="w-full border-4 border-black p-2 font-mono h-32 focus:outline-none focus:border-accent"
                   />
                 </label>
               </div>
               <button
-                onClick={() => handleCrearReview(1, 1, 1, "", "")}
+                onClick={() =>
+                  handleCrearReview(
+                    parseInt(landlordId),
+                    rating,
+                    contenido,
+                    titulo
+                  )
+                }
                 className="bg-black text-white font-black uppercase px-6 py-3 hover:bg-accent hover:text-black border-4 border-black transition-all w-full shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1"
               >
                 Enviar

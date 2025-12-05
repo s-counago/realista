@@ -24,6 +24,10 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    public Optional<User> getUserByGoogleId(String googleId){
+        return userRepository.findByGoogleId(googleId);
+    }
+
     public User findOrCreateUser(AlignUserRequest request) {
         return userRepository.findByGoogleId(request.getGoogleId())
                 .orElseGet(() -> {

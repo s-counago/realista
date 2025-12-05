@@ -55,7 +55,10 @@ public class Controller {
     @GetMapping("/api/users/{id}")
     public Optional<User> getUser(@PathVariable Long id){ return userService.getUserById(id);}
 
-
+    @GetMapping("/api/users/google/{googleId}")
+    public Optional<User> getUserByGoogleId(@PathVariable String googleId){
+        return userService.getUserByGoogleId(googleId);
+    }
 
     @PostMapping("/api/alignUser")
     public User alignUser(@RequestBody AlignUserRequest request) {
@@ -142,12 +145,13 @@ public class Controller {
     @PostMapping("/api/reviews")
     public ResponseEntity<Review> createReview(@RequestBody CreateReviewRequest request) {
         // Validate required fields
-        if (request.getUserId() == null || request.getApartmentId() == null || 
-            request.getRating() == null || request.getContent() == null || request.getContent().isEmpty()) {
+        if (request.getUserId() == null || request.getRating() == null || request.getContent() == null ||
+            request.getContent().isEmpty() || request.getTitle() == null || request.getTitle().isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
 
-        if (request.getApartmentId() == null || request.getLandlordId() == null){
+        if ((request.getApartmentId() == null || request.getApartmentId() == 0) &&
+            (request.getLandlordId() == null || request.getLandlordId() == 0)){
             return ResponseEntity.badRequest().build();
         }
 
