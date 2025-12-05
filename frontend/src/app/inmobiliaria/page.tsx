@@ -1,7 +1,7 @@
 import { auth } from "../../../auth";
 import { redirect } from "next/navigation";
 import LandlordDetails from "./LandlordDetails";
-import { getReviewsForLandlord } from "./actions";
+import { getReviewsForLandlord, createReviewForLandlord } from "./actions";
 
 interface InmobiliariaPageProps {
   searchParams: Promise<{ id?: string }>;
@@ -49,7 +49,10 @@ export default async function InmobiliariaPage({
     <div className="flex min-h-screen items-center justify-center p-4 bg-white">
       <div className="w-full max-w-4xl">
         {/* TODO: Create LandlordDetails component and pass data */}
-        <LandlordDetails reviews={reviews} />
+        <LandlordDetails
+          reviews={reviews}
+          handleCrearReview={createReviewForLandlord}
+        />
         {/* Add your content here! */}
       </div>
     </div>

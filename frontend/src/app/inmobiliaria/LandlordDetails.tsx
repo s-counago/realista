@@ -21,7 +21,7 @@ export interface Review {
   name: string;
 }
 
-export default function LandlordDetails({ reviews }: any) {
+export default function LandlordDetails({ reviews, handleCrearReview }: any) {
   const [landlordFromBrowser, setLandlordFromBrowser] =
     useState<Landlord | null>(null);
   const [loading, setLoading] = useState(true);
@@ -273,19 +273,28 @@ export default function LandlordDetails({ reviews }: any) {
 
             <div className="space-y-4">
               <div>
-                <label className="block font-bold uppercase mb-2">Título</label>
-                <input
-                  type="text"
-                  className="w-full border-4 border-black p-2 font-mono focus:outline-none focus:border-accent"
-                />
+                <label className="block font-bold uppercase mb-2">
+                  Título
+                  <input
+                    id="titulo"
+                    type="text"
+                    className="w-full border-4 border-black p-2 font-mono focus:outline-none focus:border-accent"
+                  />
+                </label>
               </div>
               <div>
                 <label className="block font-bold uppercase mb-2">
                   Contenido
+                  <textarea
+                    id="contenido"
+                    className="w-full border-4 border-black p-2 font-mono h-32 focus:outline-none focus:border-accent"
+                  />
                 </label>
-                <textarea className="w-full border-4 border-black p-2 font-mono h-32 focus:outline-none focus:border-accent" />
               </div>
-              <button className="bg-black text-white font-black uppercase px-6 py-3 hover:bg-accent hover:text-black border-4 border-black transition-all w-full shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1">
+              <button
+                onClick={() => handleCrearReview(1, 1, 1, "", "")}
+                className="bg-black text-white font-black uppercase px-6 py-3 hover:bg-accent hover:text-black border-4 border-black transition-all w-full shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1"
+              >
                 Enviar
               </button>
             </div>

@@ -1,5 +1,6 @@
 "use server";
 import { Review } from "./LandlordDetails";
+import { auth } from "../../../auth";
 
 interface ErrorNotFoundLandlord {
   error: number;
@@ -39,10 +40,11 @@ export async function createReviewForLandlord(
   content: string,
   title: string
 ) {
-  const response = await fetch(
+  const session = await auth();
+
+  /* const response = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_API}/reviews`,
     {
-      //ESTOY HACIENDO UN FETCH AL BACKEND QUE ES PRIVADO ASÍ QUE TENGO QUE HACERLO SERVER SIDE
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -60,5 +62,5 @@ export async function createReviewForLandlord(
 
   if (!response.ok) {
     return 500;
-  }
+  } */
 }
