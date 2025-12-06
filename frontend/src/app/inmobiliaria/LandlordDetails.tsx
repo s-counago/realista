@@ -34,6 +34,7 @@ export default function LandlordDetails({
   const [contenido, setContenido] = useState("");
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
+  const [reloadPending, setReloadPending] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -332,7 +333,7 @@ export default function LandlordDetails({
               </div>
               <button
                 onClick={() =>
-                  handleCrearReview(
+                  handleCrearReviewAndModalClosePlusReload(
                     parseInt(landlordId),
                     rating,
                     contenido,
@@ -349,4 +350,24 @@ export default function LandlordDetails({
       )}
     </div>
   );
+
+  async function handleCrearReviewAndModalClosePlusReload(
+    landlordId: number,
+    rating: number,
+    contenido: string,
+    titulo: string
+  ) {
+    const response = await handleCrearReview(
+      landlordId,
+      rating,
+      contenido,
+      titulo
+    );
+    if (response == 200) {
+      setIsModalOpen(!isModalOpen);
+      setReloadPending(!reloadPending);
+    } else {
+      console.log("MODAL NOT COSING MEEEEEEEEEEEEEEC");
+    }
+  }
 }

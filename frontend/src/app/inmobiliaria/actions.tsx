@@ -73,5 +73,5 @@ export async function createReviewForLandlord(
     console.log(response.status, response.statusText);
     return 500;
   }
-  console.log(response.status);
+  return 200;
 }

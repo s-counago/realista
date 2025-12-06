@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { createApartmentReview } from "./actions";
 
 interface Apartment {
   id: number;
@@ -18,7 +19,7 @@ interface Apartment {
   updatedAt: string;
 }
 
-interface Review {
+export interface Review {
   id: number;
   userId: number;
   landlordId: number | null;
@@ -49,10 +50,12 @@ export default function ApartmentDetails({
 }: ApartmentDetailsProps) {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [reviewText, setReviewText] = useState("");
+  const [title, setTitle] = useState("");
   const [rating, setRating] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [localReviews, setLocalReviews] = useState(reviews);
+  const [reload, setReload] = useState(false);
 
   const fullAddress = `${apartment.calle}, ${apartment.numero}${
     apartment.piso ? `, ${apartment.piso}` : ""
@@ -86,7 +89,7 @@ export default function ApartmentDetails({
         </h1>
         <button
           onClick={() => setIsPopupOpen(true)}
-          className="px-6 py-2 bg-white text-black border-2 border-white hover:bg-accent hover:text-white hover:border-accent font-black uppercase transition-colors"
+          className="bg-accent text-black font-black uppercase px-4 py-2 border-2 border-black hover:bg-white transition-all ml-4 shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:shadow-none translate-x-0 hover:translate-x-1 hover:translate-y-1"
         >
           Create Review
         </button>
@@ -123,7 +126,7 @@ export default function ApartmentDetails({
               {renderStars(Math.round(apartment.averageRating))}
             </div>
             <span className="text-black text-xl font-mono font-bold">
-              ({apartment.averageRating.toFixed(1)}/5 - {apartment.reviewCount}{" "}
+              ({apartment.averageRating.toFixed()}/5 - {apartment.reviewCount}{" "}
               {apartment.reviewCount === 1 ? "REVIEW" : "REVIEWS"})
             </span>
           </div>
@@ -179,145 +182,113 @@ export default function ApartmentDetails({
 
       {/* Review Popup */}
       {isPopupOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center p-4 z-50">
-          <div className="bg-white border-4 border-white p-8 max-w-2xl w-full shadow-[8px_8px_0px_0px_rgba(255,255,255,0.5)]">
-            <div className="flex justify-between items-center mb-8 border-b-4 border-black pb-4">
-              <h2 className="text-3xl font-black text-black uppercase tracking-tighter">
-                Rate Property
-              </h2>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white border-4 border-black p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] max-w-lg w-full relative">
+            <button
+              onClick={() => {
+                setIsPopupOpen(false);
+                setReviewText("");
+                setRating(0);
+                setTitle("");
+              }}
+              className="absolute top-4 right-4 font-black text-xl hover:text-accent"
+            >
+              X
+            </button>
+
+            <h2 className="text-2xl font-black uppercase mb-6 border-l-8 border-accent pl-4">
+              Crear Review
+            </h2>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block font-bold uppercase mb-2">
+                  Calificación
+                </label>
+                <div className="flex gap-2">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      type="button"
+                      onClick={() => setRating(star)}
+                      onMouseEnter={() => setHoveredRating(star)}
+                      onMouseLeave={() => setHoveredRating(0)}
+                      className="text-4xl focus:outline-none transition-transform hover:scale-110"
+                    >
+                      <span
+                        className={
+                          star <= (hoveredRating || rating)
+                            ? "text-black"
+                            : "text-gray-300"
+                        }
+                      >
+                        ★
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-bold uppercase mb-2">
+                  Título
+                  <input
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    type="text"
+                    className="w-full border-4 border-black p-2 font-mono focus:outline-none focus:border-accent"
+                  />
+                </label>
+              </div>
+
+              <div>
+                <label className="block font-bold uppercase mb-2">
+                  Contenido
+                  <textarea
+                    value={reviewText}
+                    onChange={(e) => setReviewText(e.target.value)}
+                    className="w-full border-4 border-black p-2 font-mono h-32 focus:outline-none focus:border-accent"
+                  />
+                </label>
+              </div>
+
               <button
-                onClick={() => {
-                  setIsPopupOpen(false);
-                  setReviewText("");
-                  setRating(0);
+                onClick={async () => {
+                  const review = await createReview(
+                    apartment.id,
+                    rating,
+                    title,
+                    reviewText
+                  );
+                  setIsPopupOpen(!isPopupOpen);
+                  setReload(!reload);
+                  setLocalReviews([review, ...localReviews]);
                 }}
-                className="text-black hover:text-accent text-4xl font-black leading-none"
+                disabled={!rating || !reviewText.trim() || isSubmitting}
+                className="bg-black text-white font-black uppercase px-6 py-3 hover:bg-accent hover:text-black border-4 border-black transition-all w-full shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 disabled:bg-gray-400 disabled:border-gray-400 disabled:cursor-not-allowed"
               >
-                ×
+                {isSubmitting ? "Enviando..." : "Enviar"}
               </button>
             </div>
-
-            {/* Rating stars */}
-            <div className="mb-8">
-              <label className="block text-lg font-bold text-black uppercase mb-4">
-                Rating *
-              </label>
-              <div className="flex gap-2">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <button
-                    key={star}
-                    type="button"
-                    onClick={() => setRating(star)}
-                    onMouseEnter={() => setHoveredRating(star)}
-                    onMouseLeave={() => setHoveredRating(0)}
-                    className="text-5xl focus:outline-none transition-transform hover:scale-110"
-                  >
-                    <span
-                      className={
-                        star <= (hoveredRating || rating)
-                          ? "text-black font-black"
-                          : "text-gray-300 font-black"
-                      }
-                    >
-                      ★
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <textarea
-              value={reviewText}
-              onChange={(e) => setReviewText(e.target.value)}
-              placeholder="WRITE YOUR REVIEW HERE..."
-              className="w-full px-4 py-4 border-4 border-black focus:outline-none focus:bg-black focus:text-white font-mono resize-none mb-6 text-lg"
-              rows={6}
-            />
-
-            <button
-              onClick={async () => {
-                setIsSubmitting(true);
-                try {
-                  // First, get the user ID from the backend using googleId
-                  const userResponse = await fetch(
-                    `${process.env.NEXT_PUBLIC_BACKEND_API}/api/alignUser`,
-                    {
-                      method: "POST",
-                      headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify({
-                        googleId: userGoogleId,
-                        name: userName,
-                        email: userEmail,
-                        pfp: userImage,
-                      }),
-                    }
-                  );
-
-                  if (!userResponse.ok) {
-                    throw new Error("Failed to get user");
-                  }
-
-                  const user = await userResponse.json();
-
-                  // Create the review
-                  const reviewPayload = {
-                    userId: user.id,
-                    apartmentId: apartment.id,
-                    rating: rating,
-                    content: reviewText,
-                  };
-
-                  console.log("Sending review:", reviewPayload);
-
-                  const response = await fetch(
-                    `${process.env.NEXT_PUBLIC_BACKEND_API}/api/reviews`,
-                    {
-                      method: "POST",
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify(reviewPayload),
-                    }
-                  );
-
-                  if (!response.ok) {
-                    const errorText = await response.text();
-                    console.error(
-                      "Error response:",
-                      response.status,
-                      errorText
-                    );
-                    throw new Error(
-                      `Failed to create review: ${response.status} - ${errorText}`
-                    );
-                  }
-
-                  const newReview = await response.json();
-
-                  // Add the new review to the list
-                  setLocalReviews([newReview, ...localReviews]);
-
-                  // Close popup and reset form
-                  setIsPopupOpen(false);
-                  setReviewText("");
-                  setRating(0);
-
-                  // Refresh the page to show updated apartment rating
-                  window.location.reload();
-                } catch (error) {
-                  alert("Error al crear la review: " + error);
-                } finally {
-                  setIsSubmitting(false);
-                }
-              }}
-              disabled={!rating || !reviewText.trim() || isSubmitting}
-              className="w-full px-6 py-4 bg-black text-white text-xl font-black uppercase border-4 border-black hover:bg-white hover:text-black transition-none disabled:bg-gray-400 disabled:border-gray-400 disabled:cursor-not-allowed"
-            >
-              {isSubmitting ? "SUBMITTING..." : "SUBMIT REVIEW"}
-            </button>
           </div>
         </div>
       )}
     </div>
   );
+
+  async function createReview(
+    apartmentId: number,
+    rating: number,
+    title: string,
+    content: string
+  ) {
+    const createReviewResponse = await createApartmentReview(
+      apartmentId,
+      rating,
+      title,
+      content
+    );
+
+    return createReviewResponse;
+  }
 }
