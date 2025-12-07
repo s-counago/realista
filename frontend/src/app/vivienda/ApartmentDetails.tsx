@@ -85,13 +85,13 @@ export default function ApartmentDetails({
     <div className="border-4 border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
       <div className="flex items-center justify-between p-8 border-b-4 border-black bg-black text-white">
         <h1 className="text-3xl font-black uppercase tracking-tighter">
-          Property Details
+          Detalles de la propiedad
         </h1>
         <button
           onClick={() => setIsPopupOpen(true)}
           className="bg-accent text-black font-black uppercase px-4 py-2 border-2 border-black hover:bg-white transition-all ml-4 shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:shadow-none translate-x-0 hover:translate-x-1 hover:translate-y-1"
         >
-          Create Review
+          Crear reseña
         </button>
       </div>
 
@@ -99,7 +99,7 @@ export default function ApartmentDetails({
         {/* Address Section */}
         <div className="border-l-8 border-accent pl-6">
           <h2 className="text-sm font-black text-black uppercase mb-2 tracking-widest">
-            Address
+            Dirección
           </h2>
           <p className="text-2xl font-bold text-black font-mono">
             {fullAddress}
@@ -109,7 +109,7 @@ export default function ApartmentDetails({
         {/* Landlord Section */}
         <div className="border-l-8 border-black pl-6">
           <h2 className="text-sm font-black text-black uppercase mb-2 tracking-widest">
-            Managed By
+            Gestionada por:
           </h2>
           <p className="text-2xl font-bold text-black font-mono">
             {apartment.landlordName ? apartment.landlordName : "NO INFO"}
@@ -119,7 +119,7 @@ export default function ApartmentDetails({
         {/* Rating Section */}
         <div className="border-l-8 border-accent pl-6">
           <h2 className="text-sm font-black text-black uppercase mb-2 tracking-widest">
-            Rating
+            Puntuación
           </h2>
           <div className="flex items-center gap-4">
             <div className="text-3xl flex gap-1">
@@ -136,11 +136,11 @@ export default function ApartmentDetails({
       {/* Reviews Section */}
       <div className="border-t-4 border-black p-8">
         <h2 className="text-4xl font-black uppercase mb-8 text-black tracking-tighter">
-          Reviews
+          Reseñas
         </h2>
         {localReviews.length === 0 ? (
           <p className="text-gray-500 text-center py-8 font-mono uppercase">
-            No reviews yet
+            Sin reseñas, de momento.
           </p>
         ) : (
           <div className="space-y-6">
@@ -203,7 +203,7 @@ export default function ApartmentDetails({
             <div className="space-y-4">
               <div>
                 <label className="block font-bold uppercase mb-2">
-                  Calificación
+                  Puntuación
                 </label>
                 <div className="flex gap-2">
                   {[1, 2, 3, 4, 5].map((star) => (

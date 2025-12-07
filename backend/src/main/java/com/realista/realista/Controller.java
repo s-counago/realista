@@ -1,18 +1,9 @@
 package com.realista.realista;
 
-import com.realista.realista.entities.Apartment;
-import com.realista.realista.entities.Landlord;
-import com.realista.realista.entities.Review;
-import com.realista.realista.entities.User;
-import com.realista.realista.requests.AlignUserRequest;
-import com.realista.realista.requests.CreateReviewRequest;
-import com.realista.realista.requests.SearchAddressRequest;
-import com.realista.realista.requests.SearchLandlordRequest;
+import com.realista.realista.entities.*;
+import com.realista.realista.requests.*;
 import com.realista.realista.responses.ApartmentDetailsResponse;
-import com.realista.realista.services.ApartmentService;
-import com.realista.realista.services.LandlordService;
-import com.realista.realista.services.ReviewService;
-import com.realista.realista.services.UserService;
+import com.realista.realista.services.*;
 import org.apache.coyote.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,17 +25,29 @@ public class Controller {
     private final ApartmentService apartmentService;
     private final ReviewService reviewService;
     private final LandlordService landlordService;
+    private final CredentialsService credentialsService;
 
-    public Controller(UserService userService, ApartmentService apartmentService, ReviewService reviewService, LandlordService landlordService) {
+    public Controller(UserService userService, ApartmentService apartmentService, ReviewService reviewService, LandlordService landlordService, CredentialsService credentialsService) {
         this.userService = userService;
         this.apartmentService = apartmentService;
         this.reviewService = reviewService;
         this.landlordService = landlordService;
+        this.credentialsService = credentialsService;
     }
 
     @GetMapping("/hello")
     public String hello() {
         return "hello world!";
+    }
+
+    @PostMapping("/api/registro")
+    public ResponseEntity<Credentials> registerUser(@RequestBody RegisterRequest regReq){
+        Optional<Credentials> existingCredentials = credentialsService.findByEmail(regReq.getEmail());
+        if (existingCredentials.isPresent()){
+            return ResponseEntity.status(409).build();
+        }
+        
+        credentialsService.registro(new Credentials(regReq.))
     }
 
     @GetMapping("/api/users")

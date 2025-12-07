@@ -68,7 +68,10 @@ export default function CreateApartmentForm() {
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="grid grid-cols-2 gap-6">
         <div>
-          <label htmlFor="provincia" className="block text-sm font-bold uppercase mb-2">
+          <label
+            htmlFor="provincia"
+            className="block text-sm font-bold uppercase mb-2"
+          >
             Provincia *
           </label>
           <input
@@ -82,7 +85,10 @@ export default function CreateApartmentForm() {
           />
         </div>
         <div>
-          <label htmlFor="numero" className="block text-sm font-bold uppercase mb-2">
+          <label
+            htmlFor="numero"
+            className="block text-sm font-bold uppercase mb-2"
+          >
             Número *
           </label>
           <input
@@ -113,8 +119,11 @@ export default function CreateApartmentForm() {
           />
         </div>
         <div>
-          <label htmlFor="piso" className="block text-sm font-bold uppercase mb-2">
-            Piso (opcional)
+          <label
+            htmlFor="piso"
+            className="block text-sm font-bold uppercase mb-2"
+          >
+            Piso *
           </label>
           <input
             type="text"
@@ -126,7 +135,10 @@ export default function CreateApartmentForm() {
           />
         </div>
         <div>
-          <label htmlFor="calle" className="block text-sm font-bold uppercase mb-2">
+          <label
+            htmlFor="calle"
+            className="block text-sm font-bold uppercase mb-2"
+          >
             Calle *
           </label>
           <input
@@ -140,8 +152,11 @@ export default function CreateApartmentForm() {
           />
         </div>
         <div>
-          <label htmlFor="puerta" className="block text-sm font-bold uppercase mb-2">
-            Puerta (opcional)
+          <label
+            htmlFor="puerta"
+            className="block text-sm font-bold uppercase mb-2"
+          >
+            Puerta *
           </label>
           <input
             type="text"

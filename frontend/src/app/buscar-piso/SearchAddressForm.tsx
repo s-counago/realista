@@ -27,13 +27,11 @@ export default function SearchAddressForm() {
       switch (response.error) {
         case "404":
           setNotFoundMessage(
-            "Vivienda no encontrada, ¿podrías crearla y ayudarnos a mejorar Realista?"
+            "404 Vivienda no encontrada, ¿podrías crearla y ayudarnos a mejorar Realista?"
           );
           return;
         case "500":
-          setNotFoundMessage(
-            "La hemos liado al encontrar la vivienda :("
-          )
+          setNotFoundMessage("500 La hemos liado al encontrar la vivienda :(");
           return;
       }
     }
@@ -103,7 +101,7 @@ export default function SearchAddressForm() {
             htmlFor="piso"
             className="block text-sm font-bold uppercase mb-2"
           >
-            Piso (opcional)
+            Piso
           </label>
           <input
             type="text"
@@ -135,7 +133,7 @@ export default function SearchAddressForm() {
             htmlFor="puerta"
             className="block text-sm font-bold uppercase mb-2"
           >
-            Puerta (opcional)
+            Puerta
           </label>
           <input
             type="text"

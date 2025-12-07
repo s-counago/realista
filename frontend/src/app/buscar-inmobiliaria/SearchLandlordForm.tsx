@@ -22,12 +22,10 @@ export default function SearchLandlordForm() {
       );
 
       if (landlord.error === 404) {
-        alert("no esite");
         throw new Error("404 No existe inmobiliaria");
       }
       if (landlord.error === 500) {
-        alert("woooopsies la cagamos, somehow");
-        throw new Error("500 woopsies desde la búsqueda de SearchLandlordForm");
+        throw new Error("500 No encontramos la inmobiliaria");
       }
       sessionStorage.setItem("landlord-data", JSON.stringify(landlord));
       router.push(`/inmobiliaria?id=${landlord.id}`);
@@ -55,7 +53,7 @@ export default function SearchLandlordForm() {
           value={formData.name}
           onChange={handleChange}
           className="w-full px-4 py-3 border-4 border-black focus:outline-none focus:bg-accent focus:text-white font-mono text-lg mb-6"
-          placeholder="ENTER NAME..."
+          placeholder="ESCRIBE UN NOMBRE..."
         />
         <button
           type="submit"

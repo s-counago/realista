@@ -58,7 +58,9 @@ export default async function ViviendaPage({
       <div className="flex min-h-screen items-center justify-center p-4 bg-white">
         <div className="text-center border-4 border-black p-8 bg-accent">
           <h1 className="text-4xl font-black uppercase text-black">Error</h1>
-          <p className="text-black font-bold mt-2">Failed to load apartment details</p>
+          <p className="text-black font-bold mt-2">
+            La liamos al cargar la vivienda :(
+          </p>
         </div>
       </div>
     );

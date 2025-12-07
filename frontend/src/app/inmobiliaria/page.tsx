@@ -22,7 +22,7 @@ export default async function InmobiliariaPage({
       <div className="flex min-h-screen items-center justify-center p-4 bg-white">
         <div className="text-center border-4 border-black p-8 bg-accent">
           <h1 className="text-4xl font-black uppercase text-black">Error</h1>
-          <p className="text-black font-bold mt-2">No landlord ID provided</p>
+          <p className="text-black font-bold mt-2">Sin ID de inmobiliaria</p>
         </div>
       </div>
     );
@@ -39,7 +39,7 @@ export default async function InmobiliariaPage({
         <div className="text-center border-4 border-black p-8 bg-accent">
           <h1 className="text-4xl font-black uppercase text-black">Error</h1>
           <p className="text-black font-bold mt-2">
-            Failed to load landlord details
+            Al cargar los detalles de la inmobiliaria
           </p>
         </div>
       </div>

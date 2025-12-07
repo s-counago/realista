@@ -28,7 +28,7 @@ export default function SignIn() {
           />
         </svg>
         <span className="text-black font-bold uppercase group-hover:text-white">
-          Continue with Google
+          Continúa con Google
         </span>
       </button>
     </form>

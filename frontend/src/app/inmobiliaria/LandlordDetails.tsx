@@ -137,7 +137,7 @@ export default function LandlordDetails({
       {/* Contact Information Section */}
       <div className="p-8 border-b-4 border-black">
         <h2 className="text-2xl font-black uppercase text-black mb-6 border-l-8 border-accent pl-4">
-          Contact Info
+          Información de contacto
         </h2>
         <div className="space-y-4 font-mono text-lg">
           {landlordFromBrowser.email ? (
@@ -179,12 +179,12 @@ export default function LandlordDetails({
       {/* Rating Statistics Section */}
       <div className="p-8">
         <h2 className="text-2xl font-black uppercase text-black mb-6 border-l-8 border-accent pl-4">
-          Overall Rating
+          Puntuación
         </h2>
         <div className="space-y-6">
           <div>
             <div className="flex items-center justify-between mb-2 font-bold uppercase">
-              <span className="text-black">Average Score</span>
+              <span className="text-black">Puntuación media</span>
               <span className="text-2xl font-black text-black">
                 {landlordFromBrowser.average_rating.toFixed(1)}/5.0
               </span>
@@ -200,12 +200,12 @@ export default function LandlordDetails({
           </div>
           <div className="text-center pt-4 border-t-4 border-black border-dashed">
             <p className="text-black font-mono mt-4">
-              BASED ON{" "}
+              BASADA EN{" "}
               <span className="font-black bg-black text-white px-2">
                 {landlordFromBrowser.review_count}
               </span>{" "}
-              VERIFIED{" "}
-              {landlordFromBrowser.review_count === 1 ? "REVIEW" : "REVIEWS"}
+              VERIFICADA{" "}
+              {landlordFromBrowser.review_count === 1 ? "RESEÑA" : "RESEÑAS"}
             </p>
           </div>
         </div>
@@ -213,7 +213,7 @@ export default function LandlordDetails({
       {/* Reviews Section */}
       <div className="p-8 border-t-4 border-black bg-gray-50">
         <h2 className="text-2xl font-black uppercase text-black mb-8 border-l-8 border-accent pl-4">
-          Latest Reviews
+          Últimas reseñas
         </h2>
         {/* Reviews List Container */}
         <div className="space-y-6">
@@ -259,7 +259,7 @@ export default function LandlordDetails({
           {landlordFromBrowser.review_count === 0 && (
             <div className="text-center py-12 border-4 border-dashed border-gray-300">
               <p className="font-mono text-xl text-gray-400 uppercase">
-                No reviews yet
+                Sin reseñas, de momento
               </p>
             </div>
           )}

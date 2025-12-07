@@ -11,7 +11,7 @@ export default function Login() {
             Realista
           </h1>
           <p className="text-black font-bold uppercase tracking-widest">
-            Access Terminal
+            Accede a tu perfil
           </p>
         </div>
 
@@ -24,7 +24,7 @@ export default function Login() {
             </div>
             <div className="relative flex justify-center text-sm">
               <span className="px-4 bg-white text-black font-bold uppercase">
-                or
+                o
               </span>
             </div>
           </div>
@@ -35,7 +35,7 @@ export default function Login() {
                 htmlFor="email"
                 className="block text-sm font-bold uppercase text-black mb-2"
               >
-                Email
+                Correo
               </label>
               <input
                 type="email"
@@ -50,7 +50,7 @@ export default function Login() {
                 htmlFor="password"
                 className="block text-sm font-bold uppercase text-black mb-2"
               >
-                Password
+                Contraseña
               </label>
               <input
                 type="password"
@@ -64,17 +64,14 @@ export default function Login() {
               type="submit"
               className="w-full px-6 py-4 bg-black text-white text-xl font-black uppercase border-4 border-black hover:bg-white hover:text-black transition-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
             >
-              Sign in
+              Entra
             </button>
           </form>
 
           <p className="text-center text-sm text-black font-bold uppercase">
-            Don't have an account?{" "}
-            <a
-              href="#"
-              className="text-accent hover:underline font-black"
-            >
-              Sign up
+            ¿No tienes cuenta todavía?{" "}
+            <a href="/registro" className="text-accent hover:underline font-black">
+              Regístrate
             </a>
           </p>
         </div>
