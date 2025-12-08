@@ -46,8 +46,16 @@ public class Controller {
         if (existingCredentials.isPresent()){
             return ResponseEntity.status(409).build();
         }
-        
-        credentialsService.registro(new Credentials(regReq.))
+        Credentials newCredentials = new Credentials();
+        newCredentials.setEmail(regReq.getEmail());
+        newCredentials.setHashedPassword(regReq.getPassword());
+        credentialsService.registro(newCredentials);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/api/getCredential/{email}")
+    public Optional<Credentials> getCredential(@PathVariable String email){
+        return credentialsService.findByEmail(email);
     }
 
     @GetMapping("/api/users")

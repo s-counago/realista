@@ -1,7 +1,7 @@
 import { signIn } from "../../../auth";
 import { handleGoogleSignIn } from "./actions";
 
-export default function SignIn() {
+export default function SignInGoogle() {
   return (
     <form
       action={async () => {

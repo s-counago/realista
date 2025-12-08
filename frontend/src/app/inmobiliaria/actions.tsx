@@ -1,6 +1,7 @@
 "use server";
 import { Review } from "./LandlordDetails";
 import { auth } from "../../../auth";
+import { redirect } from "next/navigation";
 
 interface ErrorNotFoundLandlord {
   error: number;
@@ -74,4 +75,23 @@ export async function createReviewForLandlord(
     return 500;
   }
   return 200;
+}
+
+export async function handleRegistro(email: string, password: string) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_API}/registro`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    }
+  );
+
+  if (!response.ok) {
+    console.log("ERROR EN handleRegistro");
+  }
+
+  redirect("/profile");
 }

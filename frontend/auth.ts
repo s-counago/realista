@@ -6,24 +6,26 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Google,
     Credentials({
-      name: "Credentials",
-      credentials: {
-        email: {
-          label: "Email",
-          type: "text",
-          placeholder: "ejemplo@dominio.com",
-        },
-        password: {
-          label: "password",
-          type: "password",
-          placeholder: "************",
-        },
-      },
-      async authorize(credentials, req) {
-        return {
-          name: "ejemplos@gmail.com",
-          password: "test123",
-        };
+      credentials: { email: {}, password: {} },
+      authorize: async (credentials) => {
+        let user = null;
+
+        // logic to verify if the user exists
+        user = await (
+          await fetch(
+            `${process.env.NEXT_PUBLIC_BACKEND_API}/getCredential/${credentials.email}`
+          )
+        ).json();
+
+        console.log(user);
+
+        if (!user) {
+          // No user found, so this is their first attempt to login
+          // Optionally, this is also the place you could do a user registration
+          throw new Error("Invalid credentials.");
+        }
+        // return user object with their profile data
+        return user;
       },
     }),
   ],

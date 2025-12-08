@@ -1,8 +1,16 @@
 "use client";
 
-import SignIn from "./SignIn";
+import SignInGoogle from "./SignInGoogle";
+import { signIn } from "next-auth/react";
 
 export default function Login() {
+  const credentialsSignIn = (formData: FormData) => {
+    const credentials = {
+      email: formData.get("email"),
+      password: formData.get("password"),
+    };
+    signIn("credentials", credentials);
+  };
   return (
     <div className="min-h-screen bg-white flex items-center justify-center px-6">
       <div className="w-full max-w-md border-4 border-black p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
@@ -16,7 +24,7 @@ export default function Login() {
         </div>
 
         <div className="space-y-6">
-          <SignIn />
+          <SignInGoogle />
 
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
@@ -29,35 +37,37 @@ export default function Login() {
             </div>
           </div>
 
-          <form className="space-y-4">
+          <form action={credentialsSignIn} className="space-y-4">
             <div>
               <label
-                htmlFor="email"
+                htmlFor="credentials-email"
                 className="block text-sm font-bold uppercase text-black mb-2"
               >
                 Correo
+                <input
+                  type="email"
+                  id="credentials-email"
+                  name="email"
+                  className="w-full px-4 py-3 bg-white border-4 border-black focus:outline-none focus:bg-accent focus:text-white text-black font-mono"
+                  placeholder="YOU@EXAMPLE.COM"
+                />
               </label>
-              <input
-                type="email"
-                id="email"
-                className="w-full px-4 py-3 bg-white border-4 border-black focus:outline-none focus:bg-accent focus:text-white text-black font-mono"
-                placeholder="YOU@EXAMPLE.COM"
-              />
             </div>
 
             <div>
               <label
-                htmlFor="password"
+                htmlFor="credentials-password"
                 className="block text-sm font-bold uppercase text-black mb-2"
               >
                 Contraseña
+                <input
+                  type="password"
+                  id="credentials-password"
+                  name="credentials-password"
+                  className="w-full px-4 py-3 bg-white border-4 border-black focus:outline-none focus:bg-accent focus:text-white text-black font-mono"
+                  placeholder="••••••••"
+                />
               </label>
-              <input
-                type="password"
-                id="password"
-                className="w-full px-4 py-3 bg-white border-4 border-black focus:outline-none focus:bg-accent focus:text-white text-black font-mono"
-                placeholder="••••••••"
-              />
             </div>
 
             <button
@@ -70,7 +80,10 @@ export default function Login() {
 
           <p className="text-center text-sm text-black font-bold uppercase">
             ¿No tienes cuenta todavía?{" "}
-            <a href="/registro" className="text-accent hover:underline font-black">
+            <a
+              href="/registro"
+              className="text-accent hover:underline font-black"
+            >
               Regístrate
             </a>
           </p>
