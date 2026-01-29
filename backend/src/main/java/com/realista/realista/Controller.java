@@ -3,6 +3,8 @@ package com.realista.realista;
 import com.realista.realista.entities.*;
 import com.realista.realista.requests.*;
 import com.realista.realista.responses.ApartmentDetailsResponse;
+import com.realista.realista.responses.AuthResponse;
+import com.realista.realista.security.JwtUtil;
 import com.realista.realista.services.*;
 import org.apache.coyote.Response;
 import org.slf4j.Logger;
@@ -26,13 +28,15 @@ public class Controller {
     private final ReviewService reviewService;
     private final LandlordService landlordService;
     private final CredentialsService credentialsService;
+    private final JwtUtil jwtUtil;
 
-    public Controller(UserService userService, ApartmentService apartmentService, ReviewService reviewService, LandlordService landlordService, CredentialsService credentialsService) {
+    public Controller(UserService userService, ApartmentService apartmentService, ReviewService reviewService, LandlordService landlordService, CredentialsService credentialsService, JwtUtil jwtUtil) {
         this.userService = userService;
         this.apartmentService = apartmentService;
         this.reviewService = reviewService;
         this.landlordService = landlordService;
         this.credentialsService = credentialsService;
+        this.jwtUtil = jwtUtil;
     }
 
     @GetMapping("/hello")
@@ -54,7 +58,7 @@ public class Controller {
     }
 
     @PostMapping("/api/login")
-    public ResponseEntity<Credentials> loginUser(@RequestBody LoginRequest loginReq){
+    public ResponseEntity<AuthResponse> loginUser(@RequestBody LoginRequest loginReq){
         Optional<Credentials> credentials = credentialsService.findByEmail(loginReq.getEmail());
         
         if (credentials.isEmpty()) {
@@ -70,7 +74,21 @@ public class Controller {
             return ResponseEntity.status(401).build(); // Unauthorized
         }
         
-        return ResponseEntity.ok(credentials.get());
+        // Generate JWT token
+        String token = jwtUtil.generateToken(
+            credentials.get().getUserId(),
+            credentials.get().getEmail(),
+            "credentials"
+        );
+        
+        AuthResponse response = new AuthResponse(
+            credentials.get().getUserId(),
+            credentials.get().getEmail(),
+            token,
+            "credentials"
+        );
+        
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/api/getCredential/{email}")
@@ -92,8 +110,24 @@ public class Controller {
     }
 
     @PostMapping("/api/alignUser")
-    public User alignUser(@RequestBody AlignUserRequest request) {
-        return userService.findOrCreateUser(request);
+    public ResponseEntity<AuthResponse> alignUser(@RequestBody AlignUserRequest request) {
+        User user = userService.findOrCreateUser(request);
+        
+        // Generate JWT token for Google OAuth user
+        String token = jwtUtil.generateToken(
+            user.getId(),
+            user.getEmail(),
+            "google"
+        );
+        
+        AuthResponse response = new AuthResponse(
+            user.getId(),
+            user.getEmail(),
+            token,
+            "google"
+        );
+        
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/api/searchAddress")
