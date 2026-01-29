@@ -53,6 +53,26 @@ public class Controller {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/api/login")
+    public ResponseEntity<Credentials> loginUser(@RequestBody LoginRequest loginReq){
+        Optional<Credentials> credentials = credentialsService.findByEmail(loginReq.getEmail());
+        
+        if (credentials.isEmpty()) {
+            return ResponseEntity.status(401).build(); // Unauthorized
+        }
+        
+        boolean passwordMatches = credentialsService.verifyPassword(
+            loginReq.getPassword(), 
+            credentials.get().getHashedPassword()
+        );
+        
+        if (!passwordMatches) {
+            return ResponseEntity.status(401).build(); // Unauthorized
+        }
+        
+        return ResponseEntity.ok(credentials.get());
+    }
+
     @GetMapping("/api/getCredential/{email}")
     public Optional<Credentials> getCredential(@PathVariable String email){
         return credentialsService.findByEmail(email);

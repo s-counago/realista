@@ -10,18 +10,29 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       authorize: async (credentials) => {
         let user = null;
 
-        // logic to verify if the user exists
-        user = await (
-          await fetch(
-            `${process.env.NEXT_PUBLIC_BACKEND_API}/getCredential/${credentials.email}`
-          )
-        ).json();
+        // Use the login endpoint to verify credentials
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_API}/login`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: credentials.email,
+              password: credentials.password,
+            }),
+          }
+        );
 
-        console.log(user);
+        if (!response.ok) {
+          // Invalid credentials
+          throw new Error("Invalid credentials.");
+        }
+
+        user = await response.json();
 
         if (!user) {
-          // No user found, so this is their first attempt to login
-          // Optionally, this is also the place you could do a user registration
           throw new Error("Invalid credentials.");
         }
         // return user object with their profile data
