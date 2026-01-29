@@ -4,6 +4,8 @@ import com.realista.realista.entities.*;
 import com.realista.realista.requests.*;
 import com.realista.realista.responses.ApartmentDetailsResponse;
 import com.realista.realista.responses.AuthResponse;
+import com.realista.realista.security.Authenticated;
+import com.realista.realista.security.AuthContext;
 import com.realista.realista.security.JwtUtil;
 import com.realista.realista.services.*;
 import org.apache.coyote.Response;
@@ -208,9 +210,18 @@ public class Controller {
     public List<Review> getLandlordReviews(@PathVariable Long id){ return reviewService.getReviewsByLandlordId(id);}
 
     @PostMapping("/api/reviews")
+    @Authenticated
     public ResponseEntity<Review> createReview(@RequestBody CreateReviewRequest request) {
+        // Get authenticated user from context
+        Long authenticatedUserId = AuthContext.getUserId();
+        
+        if (authenticatedUserId == null) {
+            log.error("No authenticated user in context despite @Authenticated annotation");
+            return ResponseEntity.status(500).build();
+        }
+        
         // Validate required fields
-        if (request.getUserId() == null || request.getRating() == null || request.getContent() == null ||
+        if (request.getRating() == null || request.getContent() == null ||
             request.getContent().isEmpty() || request.getTitle() == null || request.getTitle().isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
@@ -220,9 +231,9 @@ public class Controller {
             return ResponseEntity.badRequest().build();
         }
 
-        // Create new review
+        // Create new review with authenticated user
         Review newReview = new Review();
-        newReview.setUserId(request.getUserId());
+        newReview.setUserId(authenticatedUserId);
         newReview.setApartmentId(request.getApartmentId());
         newReview.setLandlordId(request.getLandlordId());
         newReview.setRating(request.getRating());
