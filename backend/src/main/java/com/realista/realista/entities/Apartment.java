@@ -1,17 +1,24 @@
 package com.realista.realista.entities;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "apartments")
+@Table(name = "apartments", indexes = {
+    @Index(name = "idx_apartment_landlord", columnList = "landlord_id")
+})
 public class Apartment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "landlord_id")
-    private Long landlordId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "landlord_id", foreignKey = @ForeignKey(name = "fk_apartment_landlord"))
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    private Landlord landlord;
 
     @Column(nullable = false)
     private String provincia;
@@ -60,8 +67,19 @@ public class Apartment {
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public Long getLandlordId() { return landlordId; }
-    public void setLandlordId(Long landlordId) { this.landlordId = landlordId; }
+    public Landlord getLandlord() { return landlord; }
+    public void setLandlord(Landlord landlord) { this.landlord = landlord; }
+
+    // Convenience method for backward compatibility
+    public Long getLandlordId() { return landlord != null ? landlord.getId() : null; }
+    public void setLandlordId(Long landlordId) { 
+        if (landlordId != null) {
+            this.landlord = new Landlord();
+            this.landlord.setId(landlordId);
+        } else {
+            this.landlord = null;
+        }
+    }
 
     public String getProvincia() { return provincia; }
     public void setProvincia(String provincia) { this.provincia = provincia; }

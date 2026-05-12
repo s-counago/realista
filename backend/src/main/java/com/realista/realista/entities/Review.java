@@ -1,23 +1,36 @@
 package com.realista.realista.entities;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "reviews")
+@Table(name = "reviews", indexes = {
+    @Index(name = "idx_review_user", columnList = "user_id"),
+    @Index(name = "idx_review_landlord", columnList = "landlord_id"),
+    @Index(name = "idx_review_apartment", columnList = "apartment_id")
+})
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "fk_review_user"))
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User user;
 
-    @Column(name = "landlord_id")
-    private Long landlordId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "landlord_id", foreignKey = @ForeignKey(name = "fk_review_landlord"))
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Landlord landlord;
 
-    @Column(name = "apartment_id")
-    private Long apartmentId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "apartment_id", foreignKey = @ForeignKey(name = "fk_review_apartment"))
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Apartment apartment;
 
     @Column(nullable = false)
     private Integer rating;
@@ -48,14 +61,39 @@ public class Review {
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public Long getUserId() { return userId; }
-    public void setUserId(Long userId) { this.userId = userId; }
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
 
-    public Long getLandlordId() { return landlordId; }
-    public void setLandlordId(Long landlordId) { this.landlordId = landlordId; }
+    public Landlord getLandlord() { return landlord; }
+    public void setLandlord(Landlord landlord) { this.landlord = landlord; }
 
-    public Long getApartmentId() { return apartmentId; }
-    public void setApartmentId(Long apartmentId) { this.apartmentId = apartmentId; }
+    public Apartment getApartment() { return apartment; }
+    public void setApartment(Apartment apartment) { this.apartment = apartment; }
+
+    // Convenience methods for backward compatibility
+    public Long getUserId() { return user != null ? user.getId() : null; }
+    public void setUserId(Long userId) { 
+        if (userId != null) {
+            this.user = new User();
+            this.user.setId(userId);
+        }
+    }
+
+    public Long getLandlordId() { return landlord != null ? landlord.getId() : null; }
+    public void setLandlordId(Long landlordId) { 
+        if (landlordId != null) {
+            this.landlord = new Landlord();
+            this.landlord.setId(landlordId);
+        }
+    }
+
+    public Long getApartmentId() { return apartment != null ? apartment.getId() : null; }
+    public void setApartmentId(Long apartmentId) { 
+        if (apartmentId != null) {
+            this.apartment = new Apartment();
+            this.apartment.setId(apartmentId);
+        }
+    }
 
     public Integer getRating() { return rating; }
     public void setRating(Integer rating) { this.rating = rating; }

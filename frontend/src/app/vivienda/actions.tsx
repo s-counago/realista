@@ -1,6 +1,6 @@
 "use server";
 
-import { auth } from "../../../auth";
+import { authenticatedFetch } from "@/lib/api";
 import type { Review } from "../vivienda/ApartmentDetails.tsx";
 
 export async function createApartmentReview(
@@ -20,56 +20,43 @@ export async function createApartmentReview(
     createdAt: "null",
     updatedAt: "null",
   };
-  //landlorId=0 porque es una review de una vivienda
-  const createReviewRequestObject = {
-    userId: 0,
-    apartmentId: apartmentId,
-    landlordId: 0,
-    rating: rating,
-    title: title,
-    content: content,
-  };
-  const session = await auth();
-  const userResponse = await (
-    await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_API}/users/google/${session?.user?.id}`
-    )
-  ).json();
 
-  console.log(userResponse, userResponse.id);
+  try {
+    // Create review request (userId is now extracted from JWT on backend)
+    const createReviewRequestObject = {
+      apartmentId: apartmentId,
+      landlordId: 0,
+      rating: rating,
+      title: title,
+      content: content,
+    };
 
-  if (!userResponse) {
-    return emptyReview;
-  }
-
-  createReviewRequestObject.userId = userResponse.id;
-
-  const createReviewResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_API}/reviews`,
-    {
+    // Make authenticated request
+    const createReviewResponse = await authenticatedFetch("/reviews", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
       body: JSON.stringify(createReviewRequestObject),
-    }
-  );
+    });
 
-  if (!createReviewResponse.ok) {
+    if (!createReviewResponse.ok) {
+      console.error("Failed to create review:", createReviewResponse.status);
+      return emptyReview;
+    }
+
+    const createdReview = await createReviewResponse.json();
+    
+    return {
+      id: createdReview.id || -1,
+      userId: createdReview.userId || 0,
+      landlordId: createdReview.landlordId || 0,
+      apartmentId: apartmentId,
+      rating: rating,
+      title: title,
+      content: content,
+      createdAt: createdReview.createdAt || Date(),
+      updatedAt: createdReview.updatedAt || Date(),
+    };
+  } catch (error) {
+    console.error("Error creating apartment review:", error);
     return emptyReview;
   }
-
-  const review: Review = {
-    id: -1,
-    userId: createReviewRequestObject.userId,
-    landlordId: 0,
-    apartmentId: apartmentId,
-    rating: rating,
-    title: title,
-    content: content,
-    createdAt: Date(),
-    updatedAt: Date(),
-  };
-
-  return review;
 }

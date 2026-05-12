@@ -3,6 +3,10 @@ package com.realista.realista;
 import com.realista.realista.entities.*;
 import com.realista.realista.requests.*;
 import com.realista.realista.responses.ApartmentDetailsResponse;
+import com.realista.realista.responses.AuthResponse;
+import com.realista.realista.security.Authenticated;
+import com.realista.realista.security.AuthContext;
+import com.realista.realista.security.JwtUtil;
 import com.realista.realista.services.*;
 import org.apache.coyote.Response;
 import org.slf4j.Logger;
@@ -26,13 +30,15 @@ public class Controller {
     private final ReviewService reviewService;
     private final LandlordService landlordService;
     private final CredentialsService credentialsService;
+    private final JwtUtil jwtUtil;
 
-    public Controller(UserService userService, ApartmentService apartmentService, ReviewService reviewService, LandlordService landlordService, CredentialsService credentialsService) {
+    public Controller(UserService userService, ApartmentService apartmentService, ReviewService reviewService, LandlordService landlordService, CredentialsService credentialsService, JwtUtil jwtUtil) {
         this.userService = userService;
         this.apartmentService = apartmentService;
         this.reviewService = reviewService;
         this.landlordService = landlordService;
         this.credentialsService = credentialsService;
+        this.jwtUtil = jwtUtil;
     }
 
     @GetMapping("/hello")
@@ -51,6 +57,40 @@ public class Controller {
         newCredentials.setHashedPassword(regReq.getPassword());
         credentialsService.registro(newCredentials);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/api/login")
+    public ResponseEntity<AuthResponse> loginUser(@RequestBody LoginRequest loginReq){
+        Optional<Credentials> credentials = credentialsService.findByEmail(loginReq.getEmail());
+        
+        if (credentials.isEmpty()) {
+            return ResponseEntity.status(401).build(); // Unauthorized
+        }
+        
+        boolean passwordMatches = credentialsService.verifyPassword(
+            loginReq.getPassword(), 
+            credentials.get().getHashedPassword()
+        );
+        
+        if (!passwordMatches) {
+            return ResponseEntity.status(401).build(); // Unauthorized
+        }
+        
+        // Generate JWT token
+        String token = jwtUtil.generateToken(
+            credentials.get().getUserId(),
+            credentials.get().getEmail(),
+            "credentials"
+        );
+        
+        AuthResponse response = new AuthResponse(
+            credentials.get().getUserId(),
+            credentials.get().getEmail(),
+            token,
+            "credentials"
+        );
+        
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/api/getCredential/{email}")
@@ -72,8 +112,24 @@ public class Controller {
     }
 
     @PostMapping("/api/alignUser")
-    public User alignUser(@RequestBody AlignUserRequest request) {
-        return userService.findOrCreateUser(request);
+    public ResponseEntity<AuthResponse> alignUser(@RequestBody AlignUserRequest request) {
+        User user = userService.findOrCreateUser(request);
+        
+        // Generate JWT token for Google OAuth user
+        String token = jwtUtil.generateToken(
+            user.getId(),
+            user.getEmail(),
+            "google"
+        );
+        
+        AuthResponse response = new AuthResponse(
+            user.getId(),
+            user.getEmail(),
+            token,
+            "google"
+        );
+        
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/api/searchAddress")
@@ -154,9 +210,18 @@ public class Controller {
     public List<Review> getLandlordReviews(@PathVariable Long id){ return reviewService.getReviewsByLandlordId(id);}
 
     @PostMapping("/api/reviews")
+    @Authenticated
     public ResponseEntity<Review> createReview(@RequestBody CreateReviewRequest request) {
+        // Get authenticated user from context
+        Long authenticatedUserId = AuthContext.getUserId();
+        
+        if (authenticatedUserId == null) {
+            log.error("No authenticated user in context despite @Authenticated annotation");
+            return ResponseEntity.status(500).build();
+        }
+        
         // Validate required fields
-        if (request.getUserId() == null || request.getRating() == null || request.getContent() == null ||
+        if (request.getRating() == null || request.getContent() == null ||
             request.getContent().isEmpty() || request.getTitle() == null || request.getTitle().isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
@@ -166,9 +231,9 @@ public class Controller {
             return ResponseEntity.badRequest().build();
         }
 
-        // Create new review
+        // Create new review with authenticated user
         Review newReview = new Review();
-        newReview.setUserId(request.getUserId());
+        newReview.setUserId(authenticatedUserId);
         newReview.setApartmentId(request.getApartmentId());
         newReview.setLandlordId(request.getLandlordId());
         newReview.setRating(request.getRating());
