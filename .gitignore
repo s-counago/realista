@@ -4,6 +4,7 @@
 
 # Own Infra
 .dev-pids
+DEV_NOTES.local.md
 # Next.js
 /frontend/.next/
 /frontend/out/
